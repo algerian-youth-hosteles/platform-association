@@ -23,10 +23,12 @@ h1,h2,h3,h4{font-family:'Amiri',serif}
 .banner{background:linear-gradient(90deg,#031f17,#05382b 50%,#031f17);color:var(--gold-soft);border-bottom:1px solid rgba(212,174,86,.45)}
 .topbar{background:rgba(255,253,248,.82);-webkit-backdrop-filter:saturate(1.4) blur(16px);backdrop-filter:saturate(1.4) blur(16px);border-bottom:1px solid transparent;border-image:linear-gradient(90deg,transparent,var(--gold),transparent) 1}
 .dark .topbar{background:rgba(7,18,14,.82)}
-.nav a,.nav button{position:relative;padding:6px 2px;color:var(--mute);font-weight:600;font-size:14px;background:none;border:0;cursor:pointer;font-family:inherit}
-.nav a::after,.nav button::after{content:"";position:absolute;inset-inline:0;bottom:-2px;height:2px;background:var(--gold);transform:scaleX(0);transition:transform .25s}
-.nav a:hover::after,.nav button:hover::after{transform:scaleX(1)}
-.nav a:hover,.nav button:hover{color:var(--green)}
+.nav{display:flex;align-items:center;gap:8px}
+.nav-ico{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:78px;padding:7px 12px 6px;border-radius:16px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.35),transparent);color:var(--green);cursor:pointer;font-family:inherit;text-decoration:none;transition:transform .2s,border-color .2s,background .2s,color .2s,box-shadow .2s}
+.nav-ico svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.nav-ico .lbl{display:block;font-size:11.5px;font-weight:700;line-height:1.2;white-space:nowrap}
+.nav-ico:hover{transform:translateY(-2px);border-color:var(--gold);color:var(--gold);background:rgba(166,124,46,.1);box-shadow:0 8px 18px -10px rgba(166,124,46,.8)}
+@media(max-width:640px){html{scroll-padding-top:130px}.topbar>div{height:auto!important;flex-wrap:wrap;justify-content:space-between;padding-block:8px}.nav{order:3;width:100%;justify-content:center}.nav-ico{min-width:0;flex:1;max-width:120px;padding:6px 6px 5px}.nav-ico .lbl{font-size:11px}.cta{padding:8px 14px}.topbar>div{padding-inline:12px;gap:8px}.topbar .logo{height:42px;width:42px}}
 .ctl{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--ink);font-family:inherit;transition:border-color .2s}
 .ctl:hover{border-color:var(--gold)}
 .logo{height:48px;width:48px;object-fit:cover;border-radius:50%;border:2px solid var(--gold);box-shadow:0 0 0 4px rgba(166,124,46,.15);background:#fff}
@@ -138,19 +140,19 @@ footer.global{background:linear-gradient(180deg,#031f17,#020f0b);color:#9db1a8;b
   <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex justify-between items-center gap-2">
     <div class="flex items-center gap-3">
       <img class="logo" src="https://lh3.googleusercontent.com/d/1NwCLWEE5RSeBavtK0b_7-mvmlt14xTnu" alt="Logo">
-      <div>
-        <span class="block text-sm sm:text-lg font-bold leading-tight" style="font-family:Amiri,serif;color:var(--green)" data-i18n="assocName"></span>
+      <div style="min-width:0">
+        <span class="block text-sm sm:text-lg font-bold leading-tight" style="font-family:Amiri,serif;color:var(--green)" data-i18n="navName"></span>
         <span class="text-xs px-2 py-0.5 rounded-full font-bold" style="background:rgba(166,124,46,.15);color:var(--gold)" data-i18n="badgeUnderConst"></span>
       </div>
     </div>
-    <nav class="nav hidden lg:flex gap-6">
-      <a href="#goals" data-i18n="navGoals"></a>
-      <button id="navOpenBylawsBtn" data-i18n="navBylaws"></button>
-      <a href="#structure" data-i18n="navStructure"></a>
+    <nav class="nav">
+      <a href="#goals" class="nav-ico" data-tip="tipGoals"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg><span class="lbl" data-i18n="tipGoals"></span></a>
+      <button id="navOpenBylawsBtn" class="nav-ico" data-tip="tipBylaws"><svg viewBox="0 0 24 24"><path d="M7 3h8l4 4v14H7z"/><path d="M15 3v4h4M10 12h6M10 16h6"/></svg><span class="lbl" data-i18n="tipBylaws"></span></button>
+      <button id="navOpenStructureBtn" class="nav-ico" data-tip="tipStructure"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M6 16v-4h12v4"/></svg><span class="lbl" data-i18n="tipStructure"></span></button>
     </nav>
     <div class="flex items-center gap-2">
       <button id="themeToggleBtn" class="ctl" aria-label="theme"><span id="themeIcon">🌙</span><span id="themeLabel" class="hidden sm:inline"></span></button>
-      <button id="langToggleBtn" class="ctl">🌐 <span id="langLabel">English</span></button>
+      <button id="langToggleBtn" class="ctl">🌐 <span id="langLabel" class="hidden sm:inline">English</span></button>
       <button id="navOpenFormBtn" class="cta" data-i18n="btnFillForm"></button>
     </div>
   </div>
@@ -162,8 +164,6 @@ footer.global{background:linear-gradient(180deg,#031f17,#020f0b);color:#9db1a8;b
     <p data-i18n="heroDesc"></p>
     <div class="flex flex-wrap justify-center gap-3">
       <button id="heroOpenFormBtn" class="hbtn main" data-i18n="heroBtnForm"></button>
-      <button id="heroOpenBylawsBtn" class="hbtn" data-i18n="navBylaws"></button>
-      <a href="#structure" class="hbtn" data-i18n="navStructure"></a>
     </div>
   </div>
 </section>
@@ -171,11 +171,11 @@ footer.global{background:linear-gradient(180deg,#031f17,#020f0b);color:#9db1a8;b
 <section id="goals" class="py-16 px-4 max-w-7xl mx-auto">
   <div class="shead"><h2 data-i18n="goalsTitle"></h2><p data-i18n="goalsSubtitle"></p></div>
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <div class="goal"><i>١</i><h3 data-i18n="g1Title"></h3><p data-i18n="g1Desc"></p></div>
-    <div class="goal"><i>٢</i><h3 data-i18n="g2Title"></h3><p data-i18n="g2Desc"></p></div>
-    <div class="goal"><i>٣</i><h3 data-i18n="g3Title"></h3><p data-i18n="g3Desc"></p></div>
-    <div class="goal"><i>٤</i><h3 data-i18n="g4Title"></h3><p data-i18n="g4Desc"></p></div>
-    <div class="goal md:col-span-2"><i>٥</i><h3 data-i18n="g5Title"></h3><p data-i18n="g5Desc"></p></div>
+    <div class="goal"><i data-i18n="n1"></i><h3 data-i18n="g1Title"></h3><p data-i18n="g1Desc"></p></div>
+    <div class="goal"><i data-i18n="n2"></i><h3 data-i18n="g2Title"></h3><p data-i18n="g2Desc"></p></div>
+    <div class="goal"><i data-i18n="n3"></i><h3 data-i18n="g3Title"></h3><p data-i18n="g3Desc"></p></div>
+    <div class="goal"><i data-i18n="n4"></i><h3 data-i18n="g4Title"></h3><p data-i18n="g4Desc"></p></div>
+    <div class="goal md:col-span-2"><i data-i18n="n5"></i><h3 data-i18n="g5Title"></h3><p data-i18n="g5Desc"></p></div>
   </div>
 </section>
 
@@ -218,7 +218,8 @@ footer.global{background:linear-gradient(180deg,#031f17,#020f0b);color:#9db1a8;b
   </div>
 </section>
 
-<section id="structure" class="py-16 px-4 max-w-7xl mx-auto">
+<section id="structure" class="py-16 px-4 max-w-7xl mx-auto hide">
+  <div class="flex justify-end mb-3"><button id="closeStructureBtn" class="xbtn">✕ <span data-i18n="btnCloseStructure"></span></button></div>
   <div class="shead">
     <span class="text-xs font-bold" style="color:var(--gold)" data-i18n="orgBadge"></span>
     <h2 data-i18n="orgTitle"></h2><p data-i18n="orgSubtitle"></p>
@@ -350,6 +351,7 @@ footer.global{background:linear-gradient(180deg,#031f17,#020f0b);color:#9db1a8;b
 /* ===== الترجمات (العربية هي الأصل؛ أي مفتاح غير موجود بالإنجليزية يعرض بالعربية) ===== */
 const T={
 ar:{
+n1:"١",n2:"٢",n3:"٣",n4:"٤",n5:"٥",navName:"جمعية رواد بيوت الشباب الجزائرية",tipGoals:"الأهداف",tipBylaws:"القانون الأساسي",tipStructure:"الهيكل التنظيمي",btnCloseStructure:"إغلاق الهيكل التنظيمي",
 pageTitle:"الجمعية الوطنية لرواد بيوت الشباب (قيد التأسيس)",
 legalBanner:"المنصة الرقمية الرسمية — الجمعية الوطنية لرواد بيوت الشباب (قيد التأسيس وفقاً للقانون 12-06)",
 assocName:"الجمعية الوطنية لرواد بيوت الشباب",badgeUnderConst:"قيد التأسيس",
@@ -427,6 +429,7 @@ globalFooterName:"الجمعية الوطنية لرواد بيوت الشباب
 req:"يرجى ملء جميع الحقول الإلزامية (*)",ref:"رقم الملف: ",rName:"الاسم واللقب",rAge:"العمر",rRes:"الإقامة",rPh:"الهاتف",rLv:"المستوى والمهنة"
 },
 en:{
+n1:"1",n2:"2",n3:"3",n4:"4",n5:"5",navName:"Algerian Youth Hostels Pioneers Association",tipGoals:"Objectives",tipBylaws:"Bylaws",tipStructure:"Organization Chart",btnCloseStructure:"Close Chart",
 pageTitle:"National Association of Youth Hostels Pioneers (In Formation)",
 legalBanner:"Official Digital Platform — National Association of Youth Hostels Pioneers (Under Formation / Law 12-06)",
 assocName:"National Association of Youth Hostels Pioneers",badgeUnderConst:"In Formation",
@@ -464,6 +467,7 @@ btnPrint:"Print Form & QR Code",btnAgain:"New Application",formFooter:"People's 
 globalFooterName:"National Association of Youth Hostels Pioneers (In Formation)",copyRights:"All Rights Reserved",yearsUnit:"years",modeDark:"Dark",modeLight:"Light",
 req:"Please fill all required fields (*)",ref:"Ref: ",rName:"Full Name",rAge:"Age",rRes:"Residence",rPh:"Phone",rLv:"Level & Job"
 }};
+const SCRIPT_URL='https://script.google.com/macros/s/AKfycbwFkoRKDZ7PRwO4NdJZ7f-ZAl8F2fApPGwVgeXFsM6-0NHNtGtiAKSrvyA1pWwJLlw98A/exec';
 const tr=k=>(T[lang]&&T[lang][k])||T.ar[k]||"";
 const store={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
 let lang=store.get('app_lang')||'ar';
@@ -475,6 +479,7 @@ function applyLanguage(l){
   document.documentElement.lang=l;document.documentElement.dir=l==='en'?'ltr':'rtl';
   $('langLabel').textContent=l==='en'?'العربية':'English';
   document.querySelectorAll('[data-i18n]').forEach(el=>{el.innerHTML=tr(el.dataset.i18n)});
+  document.querySelectorAll('[data-tip]').forEach(el=>{el.title=tr(el.dataset.tip);el.setAttribute('aria-label',el.title)});
   $('pageTitle').textContent=tr('pageTitle');
   applyTheme(document.documentElement.classList.contains('dark'));
   const wl=$('wl');if(!wl.value)$('cm').options[0].textContent=tr('optChooseCm');
@@ -485,9 +490,10 @@ $('langToggleBtn').onclick=()=>applyLanguage(lang==='ar'?'en':'ar');
 
 /* إظهار/إخفاء الأقسام */
 function toggle(id,show){const s=$(id);s.classList.toggle('hide',!show);if(show)s.scrollIntoView({behavior:'smooth',block:'start'});else $('hero').scrollIntoView({behavior:'smooth'})}
-[['navOpenBylawsBtn','bylaws'],['heroOpenBylawsBtn','bylaws'],['navOpenFormBtn','register'],['heroOpenFormBtn','register']].forEach(([b,s])=>$(b).onclick=()=>toggle(s,true));
+[['navOpenBylawsBtn','bylaws'],['navOpenStructureBtn','structure'],['navOpenFormBtn','register'],['heroOpenFormBtn','register']].forEach(([b,s])=>$(b).onclick=()=>toggle(s,true));
 $('closeBylawsBtn').onclick=()=>toggle('bylaws',false);
 $('closeFormBtn').onclick=()=>toggle('register',false);
+$('closeStructureBtn').onclick=()=>toggle('structure',false);
 
 /* نافذة بيانات المسؤول */
 const pop=$('orgPopover');
@@ -556,7 +562,7 @@ $('sp').addEventListener('change',function(){$('spo').classList.toggle('hide',th
 $('jb').addEventListener('change',function(){$('jbo').classList.toggle('hide',this.value!=="أخرى")});
 
 /* التحقق وإرسال الاستمارة */
-$('f').addEventListener('submit',function(e){
+$('f').addEventListener('submit',async function(e){
   e.preventDefault();
   const fn=$('fn').value.trim(),ln=$('ln').value.trim(),ph=$('ph').value.trim(),em=$('em').value.trim();
   const wlText=$('wl').options[$('wl').selectedIndex]?.text||'',cm=$('cm').value;
@@ -567,6 +573,20 @@ $('f').addEventListener('submit',function(e){
   if(!phOk){$('phe').textContent=lang==='ar'?'رقم هاتف غير صالح (مثال: 0550123456)':'Invalid phone (e.g. 0550123456)';$('ph').focus();return}
   if(em&&!/^\S+@\S+\.\S+$/.test(em)){$('eme').textContent=lang==='ar'?'بريد إلكتروني غير صالح':'Invalid email';$('em').focus();return}
   const ref="ARH-"+Date.now().toString().slice(-6);
+  const btn=this.querySelector('.go');btn.disabled=true;
+  const txt=id=>{const o=$(id).options[$(id).selectedIndex];return o?o.text.replace(/^\d+\s-\s/,'').trim():''};
+  const params=new URLSearchParams();
+  params.append('first_name',fn);params.append('last_name',ln);
+  params.append('birth_day',$('bd_d').value);params.append('birth_month',$('bd_m').value);params.append('birth_year',$('bd_y').value);
+  params.append('age',parseInt($('age').textContent)||'');
+  params.append('birth_state',txt('bp'));params.append('residence_state',txt('wl'));params.append('residence_city',cm);
+  params.append('phone',ph);params.append('email',em);params.append('education_level',$('lv').value);
+  params.append('specialty',$('sp').value==="أخرى"?$('spt').value.trim():$('sp').value);
+  params.append('occupation',$('jb').value==="أخرى"?$('jbt').value.trim():$('jb').value);
+  params.append('ref',ref);
+  try{await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params.toString()})}
+  catch(err){btn.disabled=false;alert(lang==='ar'?'تعذر إرسال الطلب، تحقق من الاتصال وحاول مجدداً.':'Could not send the request. Check your connection and try again.');return}
+  btn.disabled=false;
   $('refId').textContent=tr('ref')+ref;
   $('qrcode').innerHTML='';
   $('qrcode').appendChild(makeQR(`National Association of Youth Hostels Pioneers\nName: ${fn} ${ln}\nPhone: ${ph}\nWilaya: ${wlText}\nRef: ${ref}`));
