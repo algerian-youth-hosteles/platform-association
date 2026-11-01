@@ -1,885 +1,668 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" class="light">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>لوحة القيادة والتحليل الإحصائي | رواد بيوت الشباب</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --primary: #05382b;
-      --primary-light: #0c5a45;
-      --gold: #a67c2e;
-      --gold-light: #d4ae56;
-      --bg: #f0f4f3;
-    }
-    body {
-      font-family: 'IBM Plex Sans Arabic', sans-serif;
-      background: var(--bg);
-      color: #1e293b;
-    }
-    h1, h2, h3, h4 { font-family: 'Amiri', serif; }
-    .hide { display: none !important; }
-    .glass {
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-    }
-    .premium-card {
-      background: white;
-      border-radius: 1.5rem;
-      border: 1px solid rgba(5, 56, 43, 0.08);
-      box-shadow: 0 4px 24px -4px rgba(5, 56, 43, 0.06), 0 1px 3px rgba(0,0,0,0.04);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .premium-card:hover {
-      box-shadow: 0 12px 40px -8px rgba(5, 56, 43, 0.12), 0 4px 12px rgba(0,0,0,0.05);
-      transform: translateY(-2px);
-    }
-    .stat-number { letter-spacing: -0.03em; }
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
-    ::-webkit-scrollbar-thumb { background: #0c5a45; border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: #05382b; }
-    .member-row { transition: background 0.2s ease; cursor: pointer; }
-    .member-row:hover { background: linear-gradient(90deg, rgba(5,56,43,0.03), transparent); }
-    @keyframes modalIn {
-      from { opacity: 0; transform: scale(0.96) translateY(12px); }
-      to { opacity: 1; transform: scale(1) translateY(0); }
-    }
-    .modal-content { animation: modalIn 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
-    .btn-primary {
-      background: linear-gradient(135deg, #05382b 0%, #0c5a45 100%);
-      position: relative;
-      overflow: hidden;
-    }
-    .btn-primary::after {
-      content: '';
-      position: absolute;
-      top: 0; left: -100%;
-      width: 100%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-      transition: 0.5s;
-    }
-    .btn-primary:hover::after { left: 100%; }
-    @media print {
-      body * { visibility: hidden; }
-      #memberDetailsModal, #memberDetailsModal * { visibility: visible; }
-      #memberDetailsModal {
-        position: fixed; inset: 0; background: #fff;
-        display: block !important; padding: 0; margin: 0;
-      }
-      .no-print { display: none !important; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title id="pageTitle">الجمعية الوطنية لرواد بيوت الشباب (قيد التأسيس)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={darkMode:'class'}</script>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f3ea;--card:#fffdf8;--ink:#0d1f19;--mute:#4a5b53;--green:#05382b;--green2:#0c5a45;--gold:#a67c2e;--gold-soft:#e6d4a0;--line:#d9d0b8;--field:#fffefb;--err:#b3261e;--sh-md:0 14px 30px -18px rgba(5,56,43,.35);--sh-lg:0 30px 60px -28px rgba(5,56,43,.45)}
+.dark{--bg:#07120e;--card:#0e1d17;--ink:#f2efe6;--mute:#9db1a8;--green:#4fd1a1;--green2:#1f9d77;--gold:#d4ae56;--gold-soft:#8a6d2b;--line:#1f3a2f;--field:#0b1813;--err:#ef4444;--sh-md:0 14px 30px -18px rgba(0,0,0,.7);--sh-lg:0 30px 60px -28px rgba(0,0,0,.8)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:92px}
+body{margin:0;color:var(--ink);font-family:'IBM Plex Sans Arabic',Tahoma,sans-serif;line-height:1.85;-webkit-font-smoothing:antialiased;background-color:var(--bg);
+background-image:radial-gradient(circle at 12% 8%,rgba(166,124,46,.1),transparent 38%),radial-gradient(circle at 92% 70%,rgba(12,90,69,.1),transparent 42%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cpath d='M32 4l6 20 20 8-20 8-6 20-6-20-20-8 20-8z' fill='none' stroke='%23a67c2e' stroke-opacity='.07'/%3E%3C/svg%3E");transition:background-color .3s,color .3s}
+h1,h2,h3,h4{font-family:'Amiri',serif}
+::selection{background:var(--gold);color:#fff}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:8px}
+.hide{display:none!important}
+
+/* banner + header */
+.banner{background:linear-gradient(90deg,#031f17,#05382b 50%,#031f17);color:var(--gold-soft);border-bottom:1px solid rgba(212,174,86,.45)}
+.topbar{background:rgba(255,253,248,.82);-webkit-backdrop-filter:saturate(1.4) blur(16px);backdrop-filter:saturate(1.4) blur(16px);border-bottom:1px solid transparent;border-image:linear-gradient(90deg,transparent,var(--gold),transparent) 1}
+.dark .topbar{background:rgba(7,18,14,.82)}
+.nav{display:flex;align-items:center;gap:8px}
+.nav-ico{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:78px;padding:7px 12px 6px;border-radius:16px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.35),transparent);color:var(--green);cursor:pointer;font-family:inherit;text-decoration:none;transition:transform .2s,border-color .2s,background .2s,color .2s,box-shadow .2s}
+.nav-ico svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.nav-ico .lbl{display:block;font-size:11.5px;font-weight:700;line-height:1.2;white-space:nowrap}
+.nav-ico:hover{transform:translateY(-2px);border-color:var(--gold);color:var(--gold);background:rgba(166,124,46,.1);box-shadow:0 8px 18px -10px rgba(166,124,46,.8)}
+@media(max-width:640px){html{scroll-padding-top:130px}.topbar>div{height:auto!important;flex-wrap:wrap;justify-content:space-between;padding-block:8px}.nav{order:3;width:100%;justify-content:center}.nav-ico{min-width:0;flex:1;max-width:120px;padding:6px 6px 5px}.nav-ico .lbl{font-size:11px}.cta{padding:8px 14px}.topbar>div{padding-inline:12px;gap:8px}.topbar .logo{height:42px;width:42px}}
+.ctl{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--ink);font-family:inherit;transition:border-color .2s}
+.ctl:hover{border-color:var(--gold)}
+.logo{height:48px;width:48px;object-fit:cover;border-radius:50%;border:2px solid var(--gold);box-shadow:0 0 0 4px rgba(166,124,46,.15);background:#fff}
+.cta{background:linear-gradient(135deg,#05382b,#0c5a45);color:#fff;border:0;border-bottom:3px solid var(--gold);border-radius:999px;padding:9px 20px;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;transition:transform .2s,filter .2s}
+.cta:hover{transform:translateY(-1px);filter:brightness(1.1)}
+
+/* hero */
+#hero{position:relative;min-height:68vh;display:flex;align-items:center;text-align:center;color:#fff;border-bottom:4px solid var(--gold);padding:clamp(72px,12vw,130px) 16px;overflow:hidden;
+background:linear-gradient(180deg,rgba(3,31,23,.55),rgba(3,31,23,.88)),url('https://lh3.googleusercontent.com/d/1AEnmel7S1_D46xAr0vzIDfawh7CWiyk5') center/cover no-repeat}
+#hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(212,174,86,.25),transparent 60%)}
+#hero>div{position:relative;width:100%;max-width:860px;margin:0 auto}
+#hero h1{font-size:clamp(30px,6vw,58px);line-height:1.35;font-weight:700;color:#fbf6e6;text-shadow:0 4px 24px rgba(0,0,0,.55);margin:0 0 18px}
+#hero p{font-size:clamp(15px,2.2vw,19px);color:#e7efe9;max-width:46ch;margin:0 auto 28px}
+.hbtn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:12px 26px;font-weight:700;font-size:15px;cursor:pointer;font-family:inherit;color:#fff;border:1px solid rgba(255,255,255,.35);background:rgba(0,0,0,.35);backdrop-filter:blur(6px);text-decoration:none;transition:transform .2s}
+.hbtn:hover{transform:translateY(-2px)}
+.hbtn.main{background:linear-gradient(135deg,#c9a24a,#a67c2e);border-color:transparent;box-shadow:0 10px 28px -8px rgba(201,162,74,.7)}
+
+/* headings */
+.shead{text-align:center;margin-bottom:44px}
+.shead h2{font-size:clamp(28px,4.5vw,42px);font-weight:700;color:var(--green);margin:0}
+.shead p{color:var(--mute);margin:4px 0 0;font-size:15px}
+.shead::after{content:"";display:block;width:90px;height:9px;margin:16px auto 0;background:linear-gradient(var(--gold),var(--gold)) left center/34px 1px no-repeat,linear-gradient(var(--gold),var(--gold)) right center/34px 1px no-repeat,radial-gradient(circle,var(--gold) 3px,transparent 4px) center/9px 9px no-repeat}
+
+/* goals */
+.goal{position:relative;overflow:hidden;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px;box-shadow:var(--sh-md);transition:transform .3s,box-shadow .3s,border-color .3s}
+.goal::before{content:"";position:absolute;inset-inline:0;top:0;height:3px;background:linear-gradient(90deg,var(--gold),transparent)}
+.goal:hover{transform:translateY(-4px);border-color:var(--gold);box-shadow:var(--sh-lg)}
+.goal i{display:block;font:normal 700 44px/1 'Amiri',serif;color:var(--gold);opacity:.55;margin-bottom:8px}
+.goal h3{font-size:21px;color:var(--green);margin:0 0 8px;line-height:1.5}
+.goal p{font-size:14.5px;color:var(--mute);margin:0;line-height:1.95}
+
+/* bylaws */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:28px;padding:clamp(20px,4vw,44px);box-shadow:var(--sh-lg)}
+.bylaw-card{background:var(--card);border:1px solid var(--line);border-inline-start:4px solid var(--gold);border-radius:16px;padding:24px 26px;margin-bottom:16px}
+.bylaw-card h4{color:var(--green);font-weight:700;font-size:21px;margin:0 0 12px;padding-bottom:10px;border-bottom:1px dashed var(--line)}
+.bylaw-card p,.bylaw-card li{font-size:15px;line-height:2;margin:4px 0;max-width:75ch}
+.bylaw-card ul{list-style:disc;padding-inline-start:22px}
+.bylaw-card .sub{font-weight:700;color:var(--green)}
+.xbtn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--mute);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:6px 14px;cursor:pointer;font-family:inherit}
+.xbtn:hover{color:var(--err);border-color:var(--err)}
+
+/* org chart */
+.org-node{background:var(--card);border:1px solid var(--line);border-radius:16px;text-align:center;padding:14px;box-shadow:var(--sh-md);cursor:pointer;user-select:none;transition:transform .25s,border-color .25s,box-shadow .25s}
+.org-node:hover{transform:translateY(-3px);border-color:var(--gold);box-shadow:var(--sh-lg)}
+.org-node h3,.org-node h4,.org-node h5{margin:2px 0 0;color:var(--green);font-weight:700}
+.org-node p{margin:2px 0 0;font-size:12px;color:var(--mute);line-height:1.5}
+.org-node.top{background:linear-gradient(135deg,#05382b,#0c5a45);border:2px solid var(--gold);color:#fff}
+.org-node.top h3{color:#fff;font-size:21px}.org-node.top p{color:#bfe3d3}
+.org-node.sub{border-style:dashed;padding:10px}
+.vline{width:2px;height:30px;background:var(--gold);margin:0 auto}
+.pill{display:inline-block;background:rgba(12,90,69,.1);border:1px solid rgba(166,124,46,.5);color:var(--green);border-radius:999px;padding:6px 20px;font-size:13px;font-weight:700;margin-bottom:16px}
+.ga{background:linear-gradient(135deg,#031f17,#05382b);color:#fff;border:1px solid var(--gold);border-radius:20px;padding:22px;text-align:center;box-shadow:var(--sh-lg)}
+#orgPopover{position:fixed;z-index:60;width:256px;background:var(--card);border:1px solid var(--gold);border-radius:20px;padding:16px;text-align:center;box-shadow:var(--sh-lg);backdrop-filter:blur(10px)}
+.avatar{width:64px;height:64px;margin:0 auto 8px;border-radius:50%;display:grid;place-items:center;font-size:30px;background:linear-gradient(135deg,#05382b,#0c5a45);border:2px solid var(--gold)}
+
+/* form */
+.form-wrap{max-width:820px;margin:0 auto;padding:10px 14px 40px}
+.fhead{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff;min-height:190px;padding:26px 100px;border-radius:28px 28px 0 0;border-bottom:4px solid var(--gold);background:linear-gradient(rgba(4,36,27,.78),rgba(4,36,27,.78)),url('https://lh3.googleusercontent.com/d/1AEnmel7S1_D46xAr0vzIDfawh7CWiyk5') center/cover}
+.fhead h2{margin:0;font-size:clamp(22px,4.6vw,32px);font-weight:700;color:#fff}
+.fhead p{margin:4px 0 8px;font-size:18px;color:var(--gold-soft);font-weight:600}
+.badge{font-size:12px;font-weight:700;color:#fdf0cd;background:rgba(166,124,46,.28);border:1px solid var(--gold-soft);padding:2px 16px;border-radius:99px}
+.flogo{position:absolute;top:50%;transform:translateY(-50%);inset-inline-end:18px;width:78px;height:78px;border-radius:50%;object-fit:cover;border:2.5px solid var(--gold);background:#fff;box-shadow:0 0 0 5px rgba(212,174,86,.25),0 8px 20px rgba(0,0,0,.5)}
+.fbody{background:var(--card);border:1.5px solid var(--line);border-top:0;border-radius:0 0 28px 28px;padding:32px clamp(18px,4vw,40px) 36px;box-shadow:var(--sh-lg)}
+.sec{display:flex;align-items:center;gap:10px;margin:28px 0 16px;color:var(--green);font:700 22px 'Amiri',serif}
+.sec:first-child{margin-top:0}
+.sec::before{content:"";width:9px;height:9px;background:var(--gold);transform:rotate(45deg)}
+.sec::after{content:"";flex:1;height:1px;background:linear-gradient(to left,transparent,var(--line))}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.full{grid-column:1/-1}
+.fbody label{display:block;font-size:14px;font-weight:600;color:var(--mute);margin-bottom:6px}
+.fbody label b{color:var(--err)}
+.fbody input,.fbody select{width:100%;font:500 15px inherit;font-family:inherit;color:var(--ink);background-color:var(--field);border:1.5px solid var(--line);border-radius:14px;padding:13px 16px;outline:0;transition:.2s;appearance:none;-webkit-appearance:none}
+.fbody select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' stroke='%23a67c2e' stroke-width='2'%3E%3Cpath d='M2 4l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 14px center;padding-inline-end:16px}
+[dir=rtl] .fbody select{padding-left:38px}
+[dir=ltr] .fbody select{background-position:right 14px center;padding-right:38px}
+.fbody input:hover,.fbody select:hover{border-color:var(--gold)}
+.fbody input:focus,.fbody select:focus{border-color:var(--green2);box-shadow:0 0 0 4px rgba(12,90,69,.15)}
+.dob{display:grid;grid-template-columns:1fr 1.2fr 1.1fr;gap:8px}
+.age{display:flex;align-items:center;justify-content:space-between;background:var(--field);border:1.5px dashed var(--gold);border-radius:14px;padding:11px 16px;min-height:50px}
+.age span{color:var(--mute);font-size:13.5px}.age strong{color:var(--green);font-size:17px}
+.err{color:var(--err);font-size:12.5px;font-weight:600;margin-top:4px}
+.go{position:relative;overflow:hidden;width:100%;margin-top:30px;padding:16px 22px;border:0;border-bottom:4px solid var(--gold);border-radius:16px;font:700 18px inherit;font-family:inherit;color:#fff;cursor:pointer;background:linear-gradient(135deg,#05382b,#0c5a45);box-shadow:0 10px 24px -10px rgba(6,59,44,.6)}
+.go::after{content:"";position:absolute;top:0;bottom:0;width:60px;left:-80px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);transform:skewX(-20deg);transition:left .6s}
+.go:hover::after{left:110%}
+.ghost{background:transparent;color:var(--green);border:2px solid var(--green);margin:6px;font:700 14px inherit;font-family:inherit;padding:10px 24px;border-radius:999px;cursor:pointer}
+.ghost:hover{background:var(--green);color:var(--bg)}
+#done{text-align:center;background:var(--card);border:1.5px solid var(--line);border-radius:28px;padding:34px 20px;box-shadow:var(--sh-lg)}
+#done h2{color:var(--green);margin:8px 0;font-size:30px}
+.tick{width:68px;height:68px;margin:0 auto 12px;border-radius:50%;background:#05382b;color:#fff;font-size:36px;line-height:64px;border:3px solid var(--gold)}
+.qr-card{background:#fff;border:2px solid var(--gold);border-radius:22px;padding:16px;margin:20px auto;max-width:240px;box-shadow:var(--sh-lg)}
+#qrcode{display:flex;justify-content:center;min-height:150px;align-items:center}
+.qr-title{font-weight:700;color:#05382b;font-size:14px;margin-top:8px}
+.ref-id{font-size:12px;color:#4a5b53;font-weight:700;letter-spacing:1px}
+table#sum{width:100%;border-collapse:collapse;margin:18px 0;background:var(--field);border:1px solid var(--line);border-radius:16px;overflow:hidden;font-size:14.5px;text-align:start}
+table#sum td{padding:10px 14px;border-bottom:1px solid var(--line)}
+table#sum td:first-child{color:var(--mute);width:38%;font-weight:600}table#sum td:last-child{font-weight:700}
+.fade-in{animation:fi .4s ease-out}@keyframes fi{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+footer.global{background:linear-gradient(180deg,#031f17,#020f0b);color:#9db1a8;border-top:3px solid var(--gold);text-align:center;font-size:13px;padding:40px 16px}
+@media(max-width:560px){.grid2{grid-template-columns:1fr}.dob{gap:6px}.fhead{padding:90px 16px 24px}.flogo{top:14px;transform:none;inset-inline-end:auto;inset-inline-start:50%;margin-inline-start:-39px}.bylaw-card{padding:18px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media print{.banner,.topbar,#hero,#goals,#structure,#bylaws,footer.global,.ghost,.xbtn,#orgPopover{display:none!important}body{background:#fff;color:#000}#register{display:block!important}}
+</style>
 </head>
-<body class="antialiased">
+<body>
 
-  <!-- ==================== بوابة الدخول ==================== -->
-  <div id="loginGate" class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden"
-       style="background: linear-gradient(145deg, rgba(3, 28, 21, 0.97), rgba(5, 56, 43, 0.93)), url('https://lh3.googleusercontent.com/d/1NwCLWEE5RSeBavtK0b_7-mvmlt14xTnu') center/cover no-repeat fixed;">
-    <div class="absolute inset-0 opacity-20 pointer-events-none">
-      <div class="absolute top-20 right-20 w-72 h-72 rounded-full bg-[#a67c2e] blur-[120px]"></div>
-      <div class="absolute bottom-32 left-16 w-96 h-96 rounded-full bg-[#0c5a45] blur-[140px]"></div>
+<div class="banner text-xs sm:text-sm font-semibold text-center py-2 px-4" data-i18n="legalBanner"></div>
+
+<header class="topbar sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex justify-between items-center gap-2">
+    <div class="flex items-center gap-3">
+      <img class="logo" src="https://lh3.googleusercontent.com/d/1NwCLWEE5RSeBavtK0b_7-mvmlt14xTnu" alt="Logo">
+      <div style="min-width:0">
+        <span class="block text-sm sm:text-lg font-bold leading-tight" style="font-family:Amiri,serif;color:var(--green)" data-i18n="navName"></span>
+        <span class="text-xs px-2 py-0.5 rounded-full font-bold" style="background:rgba(166,124,46,.15);color:var(--gold)" data-i18n="badgeUnderConst"></span>
+      </div>
     </div>
-    <div class="glass p-8 sm:p-11 rounded-[2rem] shadow-2xl w-full max-w-md border border-white/40 text-center relative z-10">
-      <div class="relative w-28 h-28 mx-auto mb-6">
-        <div class="absolute inset-0 rounded-full bg-gradient-to-br from-[#a67c2e] to-[#d4ae56] opacity-30 blur-md"></div>
-        <div class="relative w-full h-full rounded-full p-1.5 border-2 border-[#a67c2e]/60 shadow-xl bg-white flex items-center justify-center overflow-hidden">
-          <img src="https://lh3.googleusercontent.com/d/1NwCLWEE5RSeBavtK0b_7-mvmlt14xTnu" alt="شعار الجمعية" class="w-full h-full object-cover rounded-full"
-               onerror="this.style.display='none'">
-        </div>
-      </div>
-      <div class="text-[11px] font-semibold tracking-[0.2em] text-[#a67c2e] mb-2 uppercase">الجمهورية الجزائرية الديمقراطية الشعبية</div>
-      <h2 class="text-2xl sm:text-3xl font-bold text-[#05382b] leading-tight mb-1">الجمعية الوطنية<br>لرواد بيوت الشباب</h2>
-      <p class="text-xs text-slate-500 mb-8 font-medium tracking-wide">لوحة القيادة المركزية • إدارة النظام</p>
-      <div class="relative mb-5">
-        <input type="password" id="adminPass" placeholder="رمز الدخول السري"
-               class="w-full bg-slate-50/80 border-2 border-slate-200/80 rounded-2xl px-5 py-4 outline-none focus:border-[#05382b] focus:bg-white text-center text-xl font-bold tracking-[0.35em] transition-all shadow-inner placeholder:tracking-normal placeholder:font-medium placeholder:text-slate-400"
-               onkeydown="if(event.key==='Enter')checkAuth()">
-      </div>
-      <button onclick="checkAuth()" class="btn-primary w-full text-white py-4 rounded-2xl font-bold text-[15px] tracking-wide shadow-lg shadow-[#05382b]/25 hover:shadow-xl hover:shadow-[#05382b]/30 transition-all duration-300">
-        دخول المنظومة
-      </button>
-      <p id="authErr" class="text-rose-600 text-xs font-bold mt-4 hide flex items-center justify-center gap-1.5">
-        رمز الدخول غير صحيح، يرجى المحاولة ثانية
-      </p>
+    <nav class="nav">
+      <a href="#goals" class="nav-ico" data-tip="tipGoals"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg><span class="lbl" data-i18n="tipGoals"></span></a>
+      <button id="navOpenBylawsBtn" class="nav-ico" data-tip="tipBylaws"><svg viewBox="0 0 24 24"><path d="M7 3h8l4 4v14H7z"/><path d="M15 3v4h4M10 12h6M10 16h6"/></svg><span class="lbl" data-i18n="tipBylaws"></span></button>
+      <button id="navOpenStructureBtn" class="nav-ico" data-tip="tipStructure"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M6 16v-4h12v4"/></svg><span class="lbl" data-i18n="tipStructure"></span></button>
+    </nav>
+    <div class="flex items-center gap-2">
+      <button id="themeToggleBtn" class="ctl" aria-label="theme"><span id="themeIcon">🌙</span><span id="themeLabel" class="hidden sm:inline"></span></button>
+      <button id="langToggleBtn" class="ctl">🌐 <span id="langLabel" class="hidden sm:inline">English</span></button>
+      <button id="navOpenFormBtn" class="cta" data-i18n="btnFillForm"></button>
     </div>
   </div>
+</header>
 
-  <!-- ==================== المنظومة الرئيسية ==================== -->
-  <div id="dashboardApp" class="hide min-h-screen p-4 sm:p-6 lg:p-8 max-w-[1600px] mx-auto">
-    <header class="premium-card p-5 sm:p-6 mb-7 flex flex-wrap justify-between items-center gap-4">
-      <div class="flex items-center gap-4">
-        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#05382b] to-[#0c5a45] text-white flex items-center justify-center text-2xl shadow-lg shadow-[#05382b]/20">📊</div>
-        <div>
-          <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-[#05382b] leading-tight">إحصائيات المنخرطين</h1>
-          <p class="text-xs sm:text-sm text-slate-500 font-medium mt-0.5">إحصائيات آنية • مؤشرات ديموغرافية • إدارة السجل</p>
-        </div>
-      </div>
-      <div class="flex items-center gap-3">
-        <button onclick="fetchMembers()" class="bg-slate-50 border border-slate-200 text-slate-700 px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-slate-100 hover:border-slate-300 flex items-center gap-2 transition-all">
-          <span>🔄</span><span class="hidden sm:inline">تحديث فوري</span>
-        </button>
-        <button onclick="exportCSV()" class="btn-primary text-white px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 shadow-md shadow-[#05382b]/20 hover:shadow-lg transition-all">
-          <span>📥</span><span>تصدير Excel</span>
-        </button>
-      </div>
-    </header>
-
-    <!-- بطاقات المؤشرات -->
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mb-7">
-      <div class="premium-card p-5 sm:p-6 relative overflow-hidden group">
-        <div class="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-[#05382b] to-[#0c5a45]"></div>
-        <div class="text-slate-400 text-[11px] font-bold tracking-wider mb-1">إجمالي المنخرطين</div>
-        <h3 id="statTotal" class="stat-number text-3xl sm:text-4xl font-black text-[#05382b]">0</h3>
-        <div class="mt-2 flex items-center gap-1.5">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span class="text-[11px] text-emerald-600 font-semibold">تدفق مباشر ومحدث</span>
-        </div>
-      </div>
-      <div class="premium-card p-5 sm:p-6 relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-[#a67c2e] to-[#d4ae56]"></div>
-        <div class="text-slate-400 text-[11px] font-bold tracking-wider mb-1">متوسط الأعمار</div>
-        <h3 id="statAvgAge" class="stat-number text-3xl sm:text-4xl font-black text-[#a67c2e]">--</h3>
-        <span id="statYouthRatio" class="text-[11px] text-slate-500 font-medium mt-2 block">الفئة الغالبة: —</span>
-      </div>
-      <div class="premium-card p-5 sm:p-6 relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-[#0c5a45] to-[#4fd1a1]"></div>
-        <div class="text-slate-400 text-[11px] font-bold tracking-wider mb-1">الولاية الأكثر نشاطاً</div>
-        <h3 id="statTopWilaya" class="stat-number text-xl sm:text-2xl font-black text-[#0c5a45] truncate mt-1">--</h3>
-        <span id="statTopWilayaCount" class="text-[11px] text-slate-500 font-medium mt-2 block">0 تسجيلات</span>
-      </div>
-      <div class="premium-card p-5 sm:p-6 relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-indigo-700 to-indigo-400"></div>
-        <div class="text-slate-400 text-[11px] font-bold tracking-wider mb-1">التخصص الأكثر تسجيلاً</div>
-        <h3 id="statTopSpec" class="stat-number text-xl sm:text-2xl font-black text-indigo-900 truncate mt-1">--</h3>
-        <span id="statWilayasCount" class="text-[11px] text-slate-500 font-medium mt-2 block">من أصل 0 ولاية</span>
-      </div>
-    </div>
-
-    <!-- ترتيب الولايات الـ 58 -->
-    <div class="premium-card p-5 sm:p-6 mb-7">
-      <div class="flex flex-wrap justify-between items-center gap-3 mb-5">
-        <h3 class="text-base sm:text-lg font-bold text-[#05382b]">ترتيب الولايات حسب عدد المنخرطين</h3>
-        <span class="text-[11px] text-slate-400 font-medium bg-slate-50 px-2.5 py-1 rounded-lg">58 ولاية • من الأعلى إلى الأقل</span>
-      </div>
-      <div id="wilayaRanking" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 max-h-[420px] overflow-y-auto pr-1">
-        <!-- يُملأ ديناميكياً -->
-      </div>
-    </div>
-
-    <!-- الرسوم البيانية -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6 mb-7">
-      <div class="premium-card p-5 sm:p-6">
-        <div class="flex justify-between items-center mb-5">
-          <h3 class="text-base sm:text-lg font-bold text-[#05382b]">أكثر الولايات تسجيلاً</h3>
-          <span class="text-[11px] text-slate-400 font-medium bg-slate-50 px-2.5 py-1 rounded-lg">Top 10</span>
-        </div>
-        <div class="relative h-64"><canvas id="wilayaChart"></canvas></div>
-      </div>
-      <div class="premium-card p-5 sm:p-6">
-        <div class="flex justify-between items-center mb-5">
-          <h3 class="text-base sm:text-lg font-bold text-[#05382b]">التوزيع حسب الفئات العمرية</h3>
-          <span class="text-[11px] text-slate-400 font-medium bg-slate-50 px-2.5 py-1 rounded-lg">معدلات الشباب</span>
-        </div>
-        <div class="relative h-64 flex justify-center"><canvas id="ageChart"></canvas></div>
-      </div>
-      <div class="premium-card p-5 sm:p-6">
-        <div class="flex justify-between items-center mb-5">
-          <h3 class="text-base sm:text-lg font-bold text-[#05382b]">التوزيع حسب المستوى الأكاديمي</h3>
-          <span class="text-[11px] text-slate-400 font-medium bg-slate-50 px-2.5 py-1 rounded-lg">نسب الشهادات</span>
-        </div>
-        <div class="relative h-64 flex justify-center"><canvas id="eduChart"></canvas></div>
-      </div>
-      <div class="premium-card p-5 sm:p-6">
-        <div class="flex justify-between items-center mb-5">
-          <h3 class="text-base sm:text-lg font-bold text-[#05382b]">أكثر التخصصات والمهارات</h3>
-          <span class="text-[11px] text-slate-400 font-medium bg-slate-50 px-2.5 py-1 rounded-lg">تنوع الطاقات</span>
-        </div>
-        <div class="relative h-64"><canvas id="specialtyChart"></canvas></div>
-      </div>
-    </div>
-
-    <!-- جدول السجل -->
-    <div class="premium-card p-5 sm:p-6 mb-8">
-      <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
-        <div>
-          <h3 class="text-lg sm:text-xl font-bold text-[#05382b]">قاعدة السجل العام للمنخرطين</h3>
-          <p class="text-xs text-slate-400 mt-0.5">اضغط على أي سطر لعرض الاستمارة الكاملة وبطاقة الـ QR</p>
-        </div>
-        <div class="flex flex-wrap items-center gap-3 w-full sm:w-auto">
-          <div class="relative flex-1 sm:flex-none">
-            <input type="text" id="searchInput" oninput="filterData()" placeholder="بحث سريع (الاسم، الهاتف، الولاية...)"
-                   class="w-full sm:w-72 border border-slate-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-[#05382b] focus:ring-2 focus:ring-[#05382b]/10 transition bg-slate-50/50">
-          </div>
-          <select id="wilayaFilter" onchange="filterData()"
-                  class="border border-slate-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-[#05382b] bg-white min-w-[140px]">
-            <option value="">جميع الولايات</option>
-          </select>
-        </div>
-      </div>
-      <div class="overflow-x-auto rounded-xl border border-slate-100">
-        <table class="w-full text-right text-sm">
-          <thead>
-            <tr class="bg-slate-50/80 text-slate-500 text-xs border-b border-slate-100">
-              <th class="p-4 font-semibold">#</th>
-              <th class="p-4 font-semibold">الاسم واللقب</th>
-              <th class="p-4 font-semibold">العمر / الميلاد</th>
-              <th class="p-4 font-semibold">مكان الإقامة</th>
-              <th class="p-4 font-semibold">الهاتف</th>
-              <th class="p-4 font-semibold">البريد</th>
-              <th class="p-4 font-semibold">المستوى والتخصص</th>
-              <th class="p-4 font-semibold">المهنة</th>
-              <th class="p-4 font-semibold">توقيت التسجيل</th>
-              <th class="p-4 font-semibold text-center">الملف</th>
-            </tr>
-          </thead>
-          <tbody id="tableBody" class="divide-y divide-slate-50">
-            <tr>
-              <td colspan="10" class="p-12 text-center text-slate-400">
-                <div class="flex flex-col items-center gap-3">
-                  <div class="w-10 h-10 border-2 border-[#05382b]/20 border-t-[#05382b] rounded-full animate-spin"></div>
-                  <span>جاري الاتصال بالسجلات...</span>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+<section id="hero">
+  <div>
+    <h1 data-i18n="heroTitle"></h1>
+    <p data-i18n="heroDesc"></p>
+    <div class="flex flex-wrap justify-center gap-3">
+      <button id="heroOpenFormBtn" class="hbtn main" data-i18n="heroBtnForm"></button>
     </div>
   </div>
+</section>
 
-  <!-- ==================== نافذة تفاصيل العضو ==================== -->
-  <div id="memberDetailsModal" class="fixed inset-0 bg-black/50 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-6 hide overflow-y-auto">
-    <div class="modal-content bg-white rounded-[1.75rem] p-6 sm:p-8 max-w-2xl w-full border border-[#a67c2e]/30 shadow-2xl relative my-auto">
-      <div class="no-print flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
-        <span class="text-xs font-bold text-slate-400 tracking-wide">تفاصيل ملف المنخرط الرسمي</span>
-        <button onclick="closeMemberModal()" class="w-9 h-9 rounded-full bg-slate-50 text-slate-400 hover:bg-rose-50 hover:text-rose-500 font-bold text-lg transition flex items-center justify-center">✕</button>
-      </div>
-      <div class="text-center mb-7">
-        <div class="text-[11px] font-bold text-slate-400 tracking-widest mb-3">الجمهورية الجزائرية الديمقراطية الشعبية</div>
-        <div class="flex items-center justify-center gap-3 mb-2">
-          <img src="https://lh3.googleusercontent.com/d/1NwCLWEE5RSeBavtK0b_7-mvmlt14xTnu" alt="شعار الجمعية"
-               class="w-14 h-14 rounded-full object-cover border-2 border-[#a67c2e]/50 shadow-md bg-white"
-               onerror="this.style.display='none'">
-          <h2 class="text-xl sm:text-2xl font-bold text-[#05382b] leading-tight text-right">الجمعية الوطنية<br>لرواد بيوت الشباب</h2>
-        </div>
-        <p class="text-xs text-[#a67c2e] font-semibold mt-1">استمارة وبطاقة الانخراط الرقمية • الموسم 2026</p>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-        <div class="bg-gradient-to-b from-[#fffdf8] to-[#faf6eb] border-2 border-[#a67c2e]/40 rounded-2xl p-5 text-center shadow-sm">
-          <div id="memberQrCode" class="flex justify-center items-center p-2 bg-white rounded-xl mx-auto mb-3 shadow-inner" style="width:160px;height:160px;min-height:160px"></div>
-          <div class="text-[13px] font-bold text-[#05382b]">بطاقة الانخراط الرقمية</div>
-          <div id="modalRefId" class="text-xs font-bold text-slate-500 tracking-wider mt-1.5">--</div>
-        </div>
-        <div class="md:col-span-2 overflow-hidden rounded-2xl border border-slate-100">
-          <table class="w-full text-right text-xs sm:text-sm">
-            <tbody class="divide-y divide-slate-100">
-              <tr class="bg-slate-50/60"><td class="p-3 font-bold text-slate-500 w-[38%]">الاسم واللقب</td><td id="dFullName" class="p-3 font-black text-[#05382b]">--</td></tr>
-              <tr><td class="p-3 font-bold text-slate-500">العمر وتاريخ الميلاد</td><td id="dBirth" class="p-3 font-semibold text-slate-800">--</td></tr>
-              <tr class="bg-slate-50/60"><td class="p-3 font-bold text-slate-500">مكان الميلاد</td><td id="dBirthPlace" class="p-3 font-semibold text-slate-800">--</td></tr>
-              <tr><td class="p-3 font-bold text-slate-500">الإقامة الحالية</td><td id="dResidence" class="p-3 font-semibold text-slate-800">--</td></tr>
-              <tr class="bg-slate-50/60"><td class="p-3 font-bold text-slate-500">رقم الهاتف</td><td id="dPhone" class="p-3 font-mono font-bold text-[#05382b]" dir="ltr">--</td></tr>
-              <tr><td class="p-3 font-bold text-slate-500">البريد الإلكتروني</td><td id="dEmail" class="p-3 font-mono text-slate-700 text-xs" dir="ltr">--</td></tr>
-              <tr class="bg-slate-50/60"><td class="p-3 font-bold text-slate-500">المستوى والتخصص</td><td id="dEdu" class="p-3 font-semibold text-slate-800">--</td></tr>
-              <tr><td class="p-3 font-bold text-slate-500">المهنة الحالية</td><td id="dJob" class="p-3 font-semibold text-slate-800">--</td></tr>
-              <tr class="bg-slate-50/60"><td class="p-3 font-bold text-slate-500">توقيت التسجيل</td><td id="dTimestamp" class="p-3 text-slate-500 text-xs">--</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="no-print mt-7 pt-5 border-t border-slate-100 flex gap-3">
-        <button onclick="window.print()" class="btn-primary flex-1 text-white py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-md shadow-[#05382b]/20">
-          طباعة بطاقة واستمارة العضو
-        </button>
-        <button onclick="closeMemberModal()" class="bg-slate-100 text-slate-600 px-6 py-3.5 rounded-xl font-bold text-sm hover:bg-slate-200 transition">
-          إغلاق
-        </button>
-      </div>
+<section id="goals" class="py-16 px-4 max-w-7xl mx-auto">
+  <div class="shead"><h2 data-i18n="goalsTitle"></h2><p data-i18n="goalsSubtitle"></p></div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="goal"><i data-i18n="n1"></i><h3 data-i18n="g1Title"></h3><p data-i18n="g1Desc"></p></div>
+    <div class="goal"><i data-i18n="n2"></i><h3 data-i18n="g2Title"></h3><p data-i18n="g2Desc"></p></div>
+    <div class="goal"><i data-i18n="n3"></i><h3 data-i18n="g3Title"></h3><p data-i18n="g3Desc"></p></div>
+    <div class="goal"><i data-i18n="n4"></i><h3 data-i18n="g4Title"></h3><p data-i18n="g4Desc"></p></div>
+    <div class="goal md:col-span-2"><i data-i18n="n5"></i><h3 data-i18n="g5Title"></h3><p data-i18n="g5Desc"></p></div>
+  </div>
+</section>
+
+<section id="bylaws" class="py-14 px-4 max-w-5xl mx-auto hide">
+  <div class="panel fade-in">
+    <div class="flex justify-between items-center gap-3 mb-6 pb-4" style="border-bottom:1px solid var(--line)">
+      <span class="text-xs sm:text-sm font-bold px-3 py-1 rounded-full" style="color:var(--gold);background:rgba(166,124,46,.12);border:1px solid var(--gold)" data-i18n="bylawsBadge"></span>
+      <button id="closeBylawsBtn" class="xbtn">✕ <span data-i18n="btnCloseBylaws"></span></button>
+    </div>
+    <div class="text-center mb-10">
+      <h3 class="text-sm font-bold" style="color:var(--mute)" data-i18n="stateTitle"></h3>
+      <h2 class="text-2xl sm:text-3xl font-bold my-2" style="color:var(--green)" data-i18n="bylawsHeading"></h2>
+      <p class="text-sm max-w-2xl mx-auto" style="color:var(--mute)" data-i18n="bylawsLegalNote"></p>
+    </div>
+
+    <div class="bylaw-card"><h4 data-i18n="bylawCh1Title"></h4>
+      <p data-i18n="bylawArt1"></p><p data-i18n="bylawArt2"></p>
+      <p data-i18n="bylawArt3Title"></p>
+      <ul><li data-i18n="bylawArt3p1"></li><li data-i18n="bylawArt3p2"></li><li data-i18n="bylawArt3p3"></li></ul>
+      <p data-i18n="bylawArt4"></p><p data-i18n="bylawArt5Title"></p>
+      <ul><li data-i18n="bylawArt5Scope"></li><li data-i18n="bylawArt5Duration"></li></ul>
+    </div>
+    <div class="bylaw-card"><h4 data-i18n="bylawCh2Title"></h4>
+      <p data-i18n="bylawArt6Title"></p>
+      <ul><li data-i18n="bylawArt6Tourism"></li><li data-i18n="bylawArt6Digital"></li><li data-i18n="bylawArt6Initiatives"></li><li data-i18n="bylawArt6Citizenship"></li></ul>
+      <p data-i18n="bylawArt7"></p>
+    </div>
+    <div class="bylaw-card"><h4 data-i18n="bylawCh3Title"></h4>
+      <p data-i18n="bylawArt8"></p><p data-i18n="bylawArt9"></p><p data-i18n="bylawArt10"></p>
+    </div>
+    <div class="bylaw-card"><h4 data-i18n="bylawCh4Title"></h4>
+      <p class="sub" data-i18n="bylawSec1Title"></p>
+      <p data-i18n="bylawArt11"></p><p data-i18n="bylawArt12"></p><p data-i18n="bylawArt13"></p><p data-i18n="bylawArt14"></p>
+      <p class="sub mt-4" data-i18n="bylawSec2Title"></p>
+      <p data-i18n="bylawArt15"></p><p data-i18n="bylawArt16"></p><p data-i18n="bylawArt17"></p>
+    </div>
+    <div class="bylaw-card"><h4 data-i18n="bylawCh58Title"></h4>
+      <p data-i18n="bylawArt18"></p><p data-i18n="bylawArt1920"></p><p data-i18n="bylawArt2122"></p><p data-i18n="bylawArt2324"></p>
     </div>
   </div>
+</section>
 
-  <script>
-    /* ========== الإعدادات ========== */
-    const ADMIN_PASSWORD = "0000";
-    // رابط Google Apps Script المتصل بجدول الأعضاء
-    const API_URL = "https://script.google.com/macros/s/AKfycbzLAJYwuSNeC8vasqjqPCUvljQmJsgGNsfTTSrKQsyVcPIleppVdDA0LbhXaeB_EU7X/exec";
+<section id="structure" class="py-16 px-4 max-w-7xl mx-auto hide">
+  <div class="flex justify-end mb-3"><button id="closeStructureBtn" class="xbtn">✕ <span data-i18n="btnCloseStructure"></span></button></div>
+  <div class="shead">
+    <span class="text-xs font-bold" style="color:var(--gold)" data-i18n="orgBadge"></span>
+    <h2 data-i18n="orgTitle"></h2><p data-i18n="orgSubtitle"></p>
+  </div>
+  <div class="flex flex-col items-center overflow-x-auto pb-6">
+    <div class="org-node top w-64 sm:w-72" data-ico="👑" data-name="رئيس الجمعية" data-role="رئيس الجمعية" data-phone="0550 00 00 01">
+      <div class="text-2xl">👑</div><h3 data-i18n="posPresident"></h3><p data-i18n="descPresident"></p></div>
+    <div class="vline"></div>
+    <div class="org-node w-60" style="border:2px solid var(--green2)" data-ico="🎖️" data-name="نائب الرئيس" data-role="نائب رئيس الجمعية" data-phone="0550 00 00 02">
+      <div class="text-xl">🎖️</div><h3 class="text-base" data-i18n="posVP"></h3><p data-i18n="descVP"></p></div>
+    <div class="vline"></div>
+    <div class="w-full max-w-2xl">
+      <div class="grid grid-cols-2 gap-4 sm:gap-8">
+        <div class="flex flex-col items-center">
+          <div class="org-node w-full max-w-[240px]" data-ico="📋" data-name="الأمين العام" data-role="الأمين العام" data-phone="0550 00 00 03"><span class="text-lg">📋</span><h4 class="text-sm" data-i18n="posGS"></h4><p data-i18n="descGS"></p></div>
+          <div class="vline" style="height:22px"></div>
+          <div class="org-node sub w-full max-w-[210px]" data-ico="📋" data-name="نائب الأمين العام" data-role="نائب الأمين العام" data-phone="0550 00 00 04"><h5 class="text-xs" data-i18n="posVGS"></h5><p data-i18n="descSub"></p></div>
+        </div>
+        <div class="flex flex-col items-center">
+          <div class="org-node w-full max-w-[240px]" data-ico="💰" data-name="أمين المال" data-role="أمين المال" data-phone="0550 00 00 05"><span class="text-lg">💰</span><h4 class="text-sm" data-i18n="posTR"></h4><p data-i18n="descTR"></p></div>
+          <div class="vline" style="height:22px"></div>
+          <div class="org-node sub w-full max-w-[210px]" data-ico="💰" data-name="نائب أمين المال" data-role="نائب أمين المال" data-phone="0550 00 00 06"><h5 class="text-xs" data-i18n="posVTR"></h5><p data-i18n="descSub"></p></div>
+        </div>
+      </div>
+    </div>
+    <div class="vline mt-4"></div>
+    <div class="w-full max-w-6xl text-center">
+      <span class="pill" data-i18n="lblAssistantsCommittees"></span>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3.5">
+        <div class="org-node" style="border-top:3px solid var(--gold)" data-ico="📦" data-name="مسؤول اللجنة" data-role="رئيس لجنة التنسيق والتنظيم والوسائل" data-phone="0550 00 00 11"><span class="text-xl">🤝📦</span><h5 class="text-xs" data-i18n="c1Title"></h5><p data-i18n="c1Desc"></p></div>
+        <div class="org-node" style="border-top:3px solid var(--green2)" data-ico="💻" data-name="مسؤول اللجنة" data-role="رئيس لجنة الإعلام والاتصال والرقمنة" data-phone="0550 00 00 12"><span class="text-xl">📢💻</span><h5 class="text-xs" data-i18n="c2Title"></h5><p data-i18n="c2Desc"></p></div>
+        <div class="org-node" style="border-top:3px solid var(--gold)" data-ico="🏕️" data-name="مسؤول اللجنة" data-role="رئيس لجنة الأنشطة والرحلات" data-phone="0550 00 00 13"><span class="text-xl">🏕️</span><h5 class="text-xs" data-i18n="c3Title"></h5><p data-i18n="c3Desc"></p></div>
+        <div class="org-node" style="border-top:3px solid var(--green2)" data-ico="⚖️" data-name="مسؤول اللجنة" data-role="رئيس لجنة الشؤون القانونية" data-phone="0550 00 00 14"><span class="text-xl">⚖️</span><h5 class="text-xs" data-i18n="c4Title"></h5><p data-i18n="c4Desc"></p></div>
+        <div class="org-node" style="border-top:3px solid var(--gold)" data-ico="🤝" data-name="مسؤول اللجنة" data-role="رئيس لجنة الشراكة والاتفاقيات" data-phone="0550 00 00 15"><span class="text-xl">🤝</span><h5 class="text-xs" data-i18n="c5Title"></h5><p data-i18n="c5Desc"></p></div>
+      </div>
+      <div class="vline mt-4"></div>
+    </div>
+    <div class="ga w-full max-w-3xl"><span class="text-xl">👥</span><h4 class="font-bold text-lg mt-1" data-i18n="posGA"></h4><p class="text-xs mt-1" style="color:#9db1a8" data-i18n="descGA"></p></div>
+  </div>
+</section>
 
-    let allMembers = [];
-    let filteredMembers = [];
-    let charts = { wilaya: null, age: null, edu: null, specialty: null };
+<div id="orgPopover" class="hide">
+  <div class="avatar" id="popIco">👤</div>
+  <h4 id="popName" class="font-bold text-base" style="color:var(--ink)"></h4>
+  <p id="popRole" class="text-xs font-semibold mb-2" style="color:var(--green)"></p>
+  <div class="p-2 rounded-xl text-xs font-bold" style="border:1px solid var(--line)">📞 <a id="popPhone" href="#" dir="ltr"></a></div>
+</div>
 
-    // الولايات الـ 58 (الترتيب الرسمي)
-    const ALL_WILAYAS = [
-      'أدرار','الشلف','الأغواط','أم البواقي','باتنة','بجاية','بسكرة','بشار','البليدة','البويرة',
-      'تمنراست','تبسة','تلمسان','تيارت','تيزي وزو','الجزائر','الجلفة','جيجل','سطيف','سعيدة',
-      'سكيكدة','سيدي بلعباس','عنابة','قالمة','قسنطينة','المدية','مستغانم','المسيلة','معسكر','ورقلة',
-      'وهران','البيض','إليزي','برج بوعريريج','بومرداس','الطارف','تندوف','تيسمسيلت','الوادي','خنشلة',
-      'سوق أهراس','تيبازة','ميلة','عين الدفلى','النعامة','عين تموشنت','غرداية','غليزان',
-      'تيميمون','برج باجي مختار','أولاد جلال','بني عباس','عين صالح','عين قزام','تقرت','جانت','المغير','المنيعة'
-    ];
+<section id="register" class="py-12 px-2 sm:px-4 hide">
+  <div class="form-wrap fade-in">
+    <div class="flex justify-end mb-3"><button id="closeFormBtn" class="xbtn">✕ <span data-i18n="btnCloseForm"></span></button></div>
+    <div class="fhead">
+      <img class="flogo" src="https://lh3.googleusercontent.com/d/1NwCLWEE5RSeBavtK0b_7-mvmlt14xTnu" alt="Logo">
+      <h2 data-i18n="assocName"></h2><p data-i18n="formTitle"></p><div class="badge" data-i18n="badgeUnderConst"></div>
+    </div>
 
-    /* ========== المصادقة ========== */
-    function checkAuth() {
-      const pass = (document.getElementById('adminPass').value || '').trim();
-      const err = document.getElementById('authErr');
-      if (pass === ADMIN_PASSWORD) {
-        err.classList.add('hide');
-        document.getElementById('loginGate').classList.add('hide');
-        document.getElementById('dashboardApp').classList.remove('hide');
-        try { sessionStorage.setItem('ruwad_auth', '1'); } catch(e) {}
-        fetchMembers();
-      } else {
-        err.classList.remove('hide');
-        document.getElementById('adminPass').value = '';
-        document.getElementById('adminPass').focus();
-      }
-    }
+    <form id="f" class="fbody" novalidate>
+      <div class="sec" data-i18n="secPersonal"></div>
+      <div class="grid2">
+        <div><label><span data-i18n="lblFirstName"></span> <b>*</b></label><input id="fn" required autocomplete="given-name"></div>
+        <div><label><span data-i18n="lblLastName"></span> <b>*</b></label><input id="ln" required autocomplete="family-name"></div>
+        <div><label><span data-i18n="lblDob"></span> <b>*</b></label>
+          <div class="dob">
+            <select id="bd_d" required><option value="" data-i18n="optDay"></option></select>
+            <select id="bd_m" required><option value="" data-i18n="optMonth"></option></select>
+            <select id="bd_y" required><option value="" data-i18n="optYear"></option></select>
+          </div></div>
+        <div><label data-i18n="lblAge"></label><div class="age"><span data-i18n="lblAutoCalc"></span><strong id="age">—</strong></div></div>
+        <div class="full"><label><span data-i18n="lblBp"></span> <b>*</b></label><select id="bp" required><option value="" data-i18n="optChooseBp"></option></select></div>
+      </div>
 
-    /* ========== بيانات تجريبية (تُستخدم إذا لم يوجد API) ========== */
-    function getDemoData() {
-      const wilayas = ['الجزائر','وهران','قسنطينة','عنابة','سطيف','باتنة','تيزي وزو','بجاية','البليدة','تلمسان'];
-      const specs = ['إعلام آلي','طب','هندسة مدنية','قانون','اقتصاد','لغة إنجليزية','تربية بدنية','صيدلة','عمارة','إدارة أعمال'];
-      const levels = ['ثانوي','ليسانس','ماستر','دكتوراه','تكوين مهني'];
-      const jobs = ['طالب','موظف','عاطل','تاجر','مهندس','أستاذ','طبيب','حرفي'];
-      const firsts = ['أحمد','محمد','يوسف','أمين','خالد','سارة','مريم','فاطمة','نادية','ياسين','إلياس','سمية'];
-      const lasts = ['بن علي','بوزيد','حسين','عمار','بوخاري','زروقي','بلقاسم','خليفي','منصوري','براهمي'];
-      const data = [];
-      for (let i = 0; i < 48; i++) {
-        const y = 1995 + Math.floor(Math.random() * 15);
-        const m = String(1 + Math.floor(Math.random() * 12)).padStart(2, '0');
-        const d = String(1 + Math.floor(Math.random() * 28)).padStart(2, '0');
-        const birth = y + '-' + m + '-' + d;
-        const age = new Date().getFullYear() - y;
-        data.push({
-          id: 'RW-' + String(1000 + i),
-          fullName: firsts[i % firsts.length] + ' ' + lasts[i % lasts.length],
-          birthDate: birth,
-          age: age,
-          birthPlace: wilayas[Math.floor(Math.random() * wilayas.length)],
-          wilaya: wilayas[Math.floor(Math.random() * wilayas.length)],
-          residence: wilayas[Math.floor(Math.random() * wilayas.length)],
-          phone: '05' + String(50000000 + Math.floor(Math.random() * 49999999)),
-          email: 'member' + (i + 1) + '@example.dz',
-          education: levels[Math.floor(Math.random() * levels.length)],
-          specialty: specs[Math.floor(Math.random() * specs.length)],
-          job: jobs[Math.floor(Math.random() * jobs.length)],
-          timestamp: new Date(Date.now() - Math.random() * 90 * 86400000).toISOString()
-        });
-      }
-      return data;
-    }
+      <div class="sec" data-i18n="secResidence"></div>
+      <div class="grid2">
+        <div><label><span data-i18n="lblWl"></span> <b>*</b></label><select id="wl" required><option value="" data-i18n="optChooseWl"></option></select></div>
+        <div><label><span data-i18n="lblCm"></span> <b>*</b></label><select id="cm" required disabled><option value="" data-i18n="optChooseCm"></option></select></div>
+      </div>
 
-    /* ========== جلب البيانات ========== */
-    async function fetchMembers() {
-      const tbody = document.getElementById('tableBody');
-      tbody.innerHTML = `<tr><td colspan="10" class="p-12 text-center text-slate-400">
-        <div class="flex flex-col items-center gap-3">
-          <div class="w-10 h-10 border-2 border-[#05382b]/20 border-t-[#05382b] rounded-full animate-spin"></div>
-          <span>جاري الاتصال بالسجلات الحقيقية...</span>
-        </div></td></tr>`;
+      <div class="sec" data-i18n="secContact"></div>
+      <div class="grid2">
+        <div><label><span data-i18n="lblPh"></span> <b>*</b></label><input id="ph" type="tel" inputmode="tel" dir="ltr" placeholder="05XX XX XX XX" required autocomplete="tel"><div class="err" id="phe"></div></div>
+        <div><label data-i18n="lblEm"></label><input id="em" type="email" dir="ltr" placeholder="name@example.com" autocomplete="email"><div class="err" id="eme"></div></div>
+      </div>
 
-      let loaded = false;
-      try {
-        if (API_URL && API_URL.length > 20) {
-          // محاولات متعددة لصيغة الـ API الشائعة
-          const urls = [
-            API_URL,
-            API_URL + (API_URL.includes('?') ? '&' : '?') + 'action=list',
-            API_URL + (API_URL.includes('?') ? '&' : '?') + 'action=getAll',
-            API_URL + (API_URL.includes('?') ? '&' : '?') + 'mode=json'
-          ];
-          let lastErr = null;
-          for (const url of urls) {
-            try {
-              const res = await fetch(url, { method: 'GET', redirect: 'follow', cache: 'no-store' });
-              if (!res.ok) { lastErr = new Error('HTTP ' + res.status); continue; }
-              const text = await res.text();
-              // رفض صفحات HTML (صفحة تسجيل دخول Google)
-              if (!text || text.trim().startsWith('<!') || text.includes('<html')) {
-                lastErr = new Error('الاستجابة ليست JSON — تحقق من نشر السكربت (Anyone)');
-                continue;
-              }
-              let json;
-              try { json = JSON.parse(text); } catch (pe) {
-                lastErr = pe; continue;
-              }
-              let rows = null;
-              if (Array.isArray(json)) rows = json;
-              else if (json && Array.isArray(json.data)) rows = json.data;
-              else if (json && Array.isArray(json.members)) rows = json.members;
-              else if (json && Array.isArray(json.rows)) rows = json.rows;
-              else if (json && Array.isArray(json.result)) rows = json.result;
-              else if (json && typeof json === 'object') {
-                // بعض السكربتات ترجع كائن مفاتيحه أرقام
-                const vals = Object.values(json);
-                if (vals.length && typeof vals[0] === 'object') rows = vals;
-              }
-              if (rows && rows.length >= 0) {
-                allMembers = rows.map(normalizeMember);
-                loaded = true;
-                break;
-              }
-              lastErr = new Error('صيغة استجابة غير معروفة');
-            } catch (e) { lastErr = e; }
-          }
-          if (!loaded) throw lastErr || new Error('تعذر قراءة البيانات');
-        } else {
-          allMembers = getDemoData();
-          loaded = true;
-        }
-      } catch (err) {
-        console.warn('API failed, using demo data:', err);
-        // إظهار تنبيه خفيف في الجدول
-        allMembers = getDemoData();
-        setTimeout(function(){
-          const note = document.createElement('div');
-          note.className = 'fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-md z-[100] bg-amber-50 border border-amber-300 text-amber-900 text-sm font-semibold px-4 py-3 rounded-xl shadow-lg';
-          note.innerHTML = '⚠ تعذر الاتصال بـ Google Sheets. تأكد أن السكربت منشور على <b>Anyone</b> ويعيد JSON. يتم عرض بيانات تجريبية حالياً.';
-          document.body.appendChild(note);
-          setTimeout(function(){ try{ note.remove(); }catch(e){} }, 8000);
-        }, 300);
-      }
+      <div class="sec" data-i18n="secEducation"></div>
+      <div class="grid2">
+        <div class="full"><label><span data-i18n="lblLv"></span> <b>*</b></label>
+          <select id="lv" required><option value="" data-i18n="optChooseLv"></option>
+            <option value="ابتدائي" data-i18n="lv1"></option><option value="متوسط" data-i18n="lv2"></option><option value="ثانوي" data-i18n="lv3"></option>
+            <option value="تكوين مهني" data-i18n="lv4"></option><option value="جامعي" data-i18n="lv5"></option><option value="بدون مستوى" data-i18n="lv6"></option></select></div>
+        <div id="spw" class="full hide"><label><span data-i18n="lblSp"></span> <b>*</b></label>
+          <select id="sp"><option value="" data-i18n="optChooseSp"></option>
+            <option value="علوم إنسانية واجتماعية" data-i18n="sp1"></option><option value="آداب ولغات" data-i18n="sp2"></option><option value="حقوق وعلوم سياسية" data-i18n="sp3"></option>
+            <option value="علوم اقتصادية وتجارية وتسيير" data-i18n="sp4"></option><option value="علوم وتكنولوجيا" data-i18n="sp5"></option><option value="هندسة" data-i18n="sp6"></option>
+            <option value="إعلام آلي" data-i18n="sp7"></option><option value="علوم الطبيعة والحياة" data-i18n="sp8"></option><option value="علوم طبية وصيدلة" data-i18n="sp9"></option>
+            <option value="علوم الإعلام والاتصال" data-i18n="sp10"></option><option value="علوم وتقنيات النشاطات البدنية والرياضية" data-i18n="sp11"></option>
+            <option value="فنون" data-i18n="sp12"></option><option value="أخرى" data-i18n="spOther"></option></select></div>
+        <div id="spo" class="full hide"><label><span data-i18n="lblSpDetail"></span> <b>*</b></label><input id="spt"></div>
+        <div class="full"><label><span data-i18n="lblJb"></span> <b>*</b></label>
+          <select id="jb" required><option value="" data-i18n="optChooseJb"></option>
+            <option value="طالب" data-i18n="jb1"></option>
+            <option value="موظف" data-i18n="jb3"></option>
+            <option value="متقاعد" data-i18n="jb12"></option>
+            <option value="أخرى" data-i18n="jbOther"></option>
+          </select></div>
+        <div id="jbo" class="full hide"><label><span data-i18n="lblJbDetail"></span> <b>*</b></label><input id="jbt" placeholder="اكتب مهنتك"></div>
+        <div id="secw" class="full hide"><label><span data-i18n="lblSector"></span> <b>*</b></label>
+          <select id="sec">
+            <option value="" data-i18n="optChooseSector"></option>
+            <option value="قطاع الشباب" data-i18n="sec1"></option>
+            <option value="قطاع الرياضة" data-i18n="sec2"></option>
+            <option value="قطاع التربية" data-i18n="sec3"></option>
+            <option value="قطاع الصحة" data-i18n="sec4"></option>
+            <option value="أخرى" data-i18n="secOther"></option>
+          </select></div>
+        <div id="seco" class="full hide"><label><span data-i18n="lblSectorDetail"></span> <b>*</b></label><input id="sect" placeholder="اكتب قطاعك"></div>
+        <div class="full"><label><span data-i18n="lblContrib"></span> <b>*</b></label>
+          <select id="contrib" required>
+            <option value="" data-i18n="optChooseContrib"></option>
+            <option value="تطوير البرمجيات و الحلول الرقمية" data-i18n="c1"></option>
+            <option value="التنظيم و التنسيق الميداني والرحلات" data-i18n="c2"></option>
+            <option value="الاعلام و صناعة المحتوى الرقمي" data-i18n="c3"></option>
+            <option value="التاطير القانوني و الاداري" data-i18n="c4"></option>
+            <option value="رائد و ناشط في حركة بيوت الشباب" data-i18n="c5"></option>
+          </select></div>
+      </div>
+      <button type="submit" class="go" data-i18n="btnSubmitForm"></button>
+    </form>
 
-      filteredMembers = allMembers.slice();
-      populateWilayaFilter();
-      updateStats();
-      updateCharts();
-      renderTable();
-    }
+    <div id="done" class="hide">
+      <div class="tick">✓</div>
+      <h2 data-i18n="doneTitle"></h2>
+      <p class="font-bold m-0" data-i18n="assocName"></p>
+      <div class="qr-card"><div id="qrcode"></div><div class="qr-title" data-i18n="qrCardTitle"></div><div class="ref-id" id="refId"></div></div>
+      <table id="sum"></table>
+      <button class="ghost" onclick="window.print()" data-i18n="btnPrint"></button>
+      <button class="ghost" id="again" data-i18n="btnAgain"></button>
+    </div>
+    <p class="text-center text-sm font-semibold mt-5" style="color:var(--mute)" data-i18n="formFooter"></p>
+  </div>
+</section>
 
-    function pick(m, keys) {
-      for (let i = 0; i < keys.length; i++) {
-        const k = keys[i];
-        if (m[k] != null && String(m[k]).trim() !== '') return m[k];
-      }
-      // بحث جزئي في المفاتيح (عناوين عربية من Google Forms)
-      const map = {};
-      Object.keys(m || {}).forEach(function(k){ map[String(k).toLowerCase().trim()] = m[k]; });
-      for (let i = 0; i < keys.length; i++) {
-        const k = String(keys[i]).toLowerCase();
-        if (map[k] != null && String(map[k]).trim() !== '') return map[k];
-        // تطابق جزئي
-        const found = Object.keys(map).find(function(mk){ return mk.includes(k) || k.includes(mk); });
-        if (found && map[found] != null && String(map[found]).trim() !== '') return map[found];
-      }
-      return '';
-    }
+<footer class="global">
+  <p class="m-0 font-semibold" data-i18n="globalFooterName"></p>
+  <p class="mt-2 mb-0">&copy; 2026 <span data-i18n="copyRights"></span></p>
+</footer>
 
-    function normalizeMember(m) {
-      if (!m || typeof m !== 'object') m = {};
-      const first = pick(m, ['firstName','first_name','الاسم','الاسم الأول','prénom','prenom']);
-      const last = pick(m, ['lastName','last_name','اللقب','nom','familyName','family_name']);
-      // الاسم الكامل = الاسم + اللقب دائماً عند توفرهما
-      let fullName = '';
-      if (first && last) fullName = (first + ' ' + last).trim();
-      else if (first || last) fullName = (first || last).trim();
-      else fullName = pick(m, ['fullName','full_name','name','الاسم واللقب','الاسم الكامل','Nom complet']) || '—';
+<script>
+/* ===== الترجمات (العربية هي الأصل؛ أي مفتاح غير موجود بالإنجليزية يعرض بالعربية) ===== */
+const T={
+ar:{
+n1:"١",n2:"٢",n3:"٣",n4:"٤",n5:"٥",navName:"جمعية رواد بيوت الشباب الجزائرية",tipGoals:"الأهداف",tipBylaws:"القانون الأساسي",tipStructure:"الهيكل التنظيمي",btnCloseStructure:"إغلاق الهيكل التنظيمي",
+pageTitle:"الجمعية الوطنية لرواد بيوت الشباب (قيد التأسيس)",
+legalBanner:"المنصة الرقمية الرسمية — الجمعية الوطنية لرواد بيوت الشباب (قيد التأسيس وفقاً للقانون 12-06)",
+assocName:"الجمعية الوطنية لرواد بيوت الشباب",badgeUnderConst:"قيد التأسيس",
+navGoals:"الأهداف",navBylaws:"📜 القانون الأساسي",navStructure:"المخطط الهيكلي",
+btnFillForm:"ملء الاستمارة",btnCloseForm:"إغلاق الاستمارة",btnCloseBylaws:"إغلاق القانون الأساسي",
+heroTitle:"نحو تحول رقمي وسياحة شبابية مستدامة في الجزائر",
+heroDesc:"مبادرة وطنية مستقلة تجمع الشباب الرحالة والمطورين والناشطين لترقية حركة السفر والترحال وتحسين فضاءات بيوت الشباب عبر الوطن.",
+heroBtnForm:"الانتقال مباشرة إلى استمارة الانخراط",
+goalsTitle:"الأهداف الاستراتيجية للجمعية",goalsSubtitle:"المرتكزات الأساسية لمشروع التأسيس",
+g1Title:"الرقمنة والابتكار في الخدمة الشبابية",g1Desc:"المساهمة في التحول الرقمي لحركة السفر والترحال الشبابي، عبر تطوير منصات تقنية، وبوابات معلومات جغرافية، وتطبيقات ذكية لتسهيل استكشاف واستعمال فضاءات الإقامة التابعة لقطاع الشباب.",
+g2Title:"ترقية سياحة الشباب والتنقل الوطني",g2Desc:"تشجيع حركية الشباب بين ولايات الوطن للتعريف بالموروث الثقافي، التاريخي، والسياحي للجزائر بتكاليف ميسّرة.",
+g3Title:"تطوير تجربة الإقامة والارتحال",g3Desc:"العمل على تحسين بيئة الاستقبال ومعايير الراحة لرواد بيوت الشباب من خلال رصد تقييمات وتطلعات المستخدمين ورفع مقترحات عملية للهيئات المسيرة.",
+g4Title:"تعزيز ثقافة الترحال المسؤول والمستدام",g4Desc:"نشر مبادئ السياحة البيئية والرياضية الجبلية، وغرس روح الحفاظ على المنشآت والمرافق العامة لدى الرواد.",
+g5Title:"التمكين والتضامن الشبكي",g5Desc:"خلق شبكة تفاعلية تدمج بين الشباب الرحالة، المطورين، والناشطين لتنظيم ورش تدريبية، ملتقيات ومسابقات في الابتكار التكنولوجي والسياحي.",
+bylawsBadge:"طبقاً لأحكام القانون 12-06 المتعلق بالجمعيات",stateTitle:"الجمهورية الجزائرية الديمقراطية الشعبية",
+bylawsHeading:"القانون الأساسي لـ: \"الجمعية الوطنية لرواد بيوت الشباب\" (قيد التأسيس)",
+bylawsLegalNote:"تأسست الجمعية طبقاً لأحكام القانون رقم 12-06 المؤرخ في 18 صفر عام 1433 الموافق لـ 12 جانفي 2012 والمتعلق بالجمعيات.",
+bylawCh1Title:"الباب الأول: التأسيس، التسمية، المقر، والاستقلالية",
+bylawArt1:"<b>المادة 1 (التأسيس):</b> تؤسس بين الأعضاء المؤسسين الموقعين على محضر الجمعية العامة التأسيسية ومن ينضم إليهم لاحقاً، جمعية وطنية ذات طابع شباني، سياحي، تربوي ورقمي، تخضع لأحكام القانون رقم 12-06 المؤرخ في 12 جانفي 2012، ولهذا القانون الأساسي ولنظامها الداخلي.",
+bylawArt2:"<b>المادة 2 (التسمية):</b> تسمى الجمعية: <b>\"الجمعية الوطنية لرواد بيوت الشباب\"</b> (يشار إليها بعبارة \"قيد التأسيس\" في المعاملات الإدارية إلى غاية استلام وصل التسجيل ونشره).",
+bylawArt3Title:"<b>المادة 3 (الاستقلالية):</b>",
+bylawArt3p1:"الجمعية مستقلة تماماً عن أي تنظيم حزبي، سياسي، نقابي، أو أي هيئة نظامية أو قطاع إداري حكومي.",
+bylawArt3p2:"تمارس الجمعية نشاطاتها وقراراتها وتدير هياكلها بحرية واستقلالية كاملة في إطار الدستور وقوانين الجمهورية الجزائرية.",
+bylawArt3p3:"لا يترتب على استعمال تسمية \"رواد بيوت الشباب\" أي تبعية إدارية، مالية أو وصاية هيكلية تجاه مؤسسات الدولة أو المرافق الشبانية، وتقتصر علاقتها بها على الشراكة والتعاون وتبادل الخدمات لخدمة أهداف الشباب.",
+bylawArt4:"<b>المادة 4 (المقر الاجتماعي):</b> يقع المقر الوطني المؤقت للجمعية بـ: [العنوان الكامل للمقر المستقل للجمعية]. ولا يمكن نقل المقر الوطني إلا بقرار من المكتب الوطني ومصادقة الجمعية العامة مع إشعار وزارة الداخلية والجماعات المحلية والتهيئة العمرانية.",
+bylawArt5Title:"<b>المادة 5 (النطاق والمدة):</b>",
+bylawArt5Scope:"<b>النطاق:</b> تمارس الجمعية أنشطتها على كامل التراب الوطني للجمهورية الجزائرية الديمقراطية الشعبية.",
+bylawArt5Duration:"<b>المدة:</b> حُددت مدة الجمعية بمدة غير محدودة، وتكتسب الشخصية المعنوية والأهلية المدنية بمجرد تسليم وصل التصريح التأسيسي من طرف وزارة الداخلية ونشره في جريدتين يوميتين وطنيتين.",
+bylawCh2Title:"الباب الثاني: الأهداف ووسائل العمل",
+bylawArt6Title:"<b>المادة 6 (الأهداف):</b> تسعى الجمعية بصفتها هيئة مجتمع مدني حرة ومستقلة إلى تحقيق الأهداف التالية:",
+bylawArt6Tourism:"<b>ترقية سياحة وتجوال الشباب:</b> نشر ثقافة السفر والسياحة الشبابية التربوية والاستكشافية بين شباب الوطن، والدفاع عن حقوق وتطلعات رواد بيوت الشباب ومحبي التجوال في الحصول على خدمات ومرافق لائقة.",
+bylawArt6Digital:"<b>الرقمنة والتحول التكنولوجي:</b> بناء وإدارة منصة رقمية مستقلة وبوابة إلكترونية وتطبيقات ذكية تعرّف بالمسارات السياحية، وتسهل ربط الشباب المرتادين للمرافق وتوفير دلائل سياحية افتراضية، وإنشاء بنك معلومات رقمي تفاعلي يوثق المسارات ومواقع التخييم، وتنظيم ورشات تدريبية متخصصة في صناعة المحتوى والمواطنة الرقمية.",
+bylawArt6Initiatives:"<b>التأهيل والمبادرات:</b> تنظيم ملتقيات ومخيمات وقوافل استكشافية مستقلة، واحتضان أصحاب المشاريع الرقمية والابتكارية الشبانية والنوادي العلمية.",
+bylawArt6Citizenship:"<b>المواطنة وحماية البيئة:</b> ترسيخ ثقافة التطوع، الحفاظ على البيئة الطبيعية، والمحافظة على التراث الوطني بمختلف وسائط التوعية الحديثة.",
+bylawArt7:"<b>المادة 7 (وسائل العمل):</b> تعتمد الجمعية في تنفيذ أهدافها على: الفضاءات الرقمية والبوابات الإلكترونية، المخيمات والندوات والرحلات الميدانية، وإبرام اتفاقيات تعاون وشراكة حرة مع مختلف الهيئات العامة والخاصة والجمعيات المماثلة بما يحفظ استقلالية الجمعية ويخدم منخرطيها.",
+bylawCh3Title:"الباب الثالث: التشكيلة، شروط الانخراط، وفقدان العضوية",
+bylawArt8:"<b>المادة 8 (تركيبة التأسيس):</b> تتشكل الجمعية الوطنية عند التأسيس من أعضاء مؤسسين يمثلون ولايات متعددة وفق المادة 6 من القانون 12-06 (تغطية ربع ولايات الوطن و100 عضو مؤسس كحد أدنى قانوني).",
+bylawArt9:"<b>المادة 9 (شروط الانخراط):</b> يشترط في كل من يرغب في الانخراط التمتع بالجنسية الجزائرية، بلوغ سن 18 سنة على الأقل (ويجوز للشباب دون 18 سنة الاستفادة من الأنشطة كممارسين ومنخرطين دون حق التصويت والترشح)، التمتع بالحقوق المدنية والوطنية، الالتزام بمبادئ استقلالية الجمعية وبنود هذا القانون الأساسي ونظامها الداخلي، ودفع الاشتراك السنوي.",
+bylawArt10:"<b>المادة 10 (فقدان العضوية):</b> تُفقد صفة العضوية بالاستقالة الكتابية المسببة، الوفاة، أو الإقصاء النهائي بقرار من الهيئة المختصة في حال ارتكاب خطأ جسيم أو محاولة الزج بالجمعية في نزاعات سياسية أو حزبية أو تضارب مصالح، مع ضمان حق المعني في الاستماع والدفاع عن نفسه.",
+bylawCh4Title:"الباب الرابع: الهياكل المركزية وسيرها",bylawSec1Title:"الفصل الأول: الجمعية العامة الوطنية",
+bylawArt11:"<b>المادة 11 (التكوين):</b> الجمعية العامة هي الهيئة العليا السيدة في قراراتها، وتضم الأعضاء المؤسسين، أعضاء المكتب الوطني التنفيذي، ومندوبي المكاتب الولائية المنتخبين بشكل ديمقراطي ومستقل وفق ما يحدده النظام الداخلي.",
+bylawArt12:"<b>المادة 12 (الاجتماعات والدورات):</b> تعقد الجمعية العامة دورة عادية كل سنة بدعوة من الرئيس الوطني، ودورة استثنائية بطلب من الرئيس أو ثلثي أعضاء المكتب الوطني أو ثلثي أعضاء الجمعية العامة، وتوجه الاستدعاءات قبل 15 يوماً على الأقل من موعد الانعقاد.",
+bylawArt13:"<b>المادة 13 (النصاب واتخاذ القرارات):</b> لا تصح مداولات الجمعية العامة إلا بحضور الأغلبية المطلقة (النصف + 1). وإذا لم يكتمل النصاب يُعاد الاستدعاء في أجل أقصاه 15 يوماً وتعتبر المداولات صحيحة مهما كان عدد الحاضرين. وتتخذ القرارات بالأغلبية البسيطة ما عدا تعديل القانون الأساسي أو الحل الإرادي.",
+bylawArt14:"<b>المادة 14 (الصلاحيات):</b> تختص بانتخاب وتجديد أعضاء المكتب الوطني ورئيسه بالاقتراع السري والديمقراطي، مناقشة التقريرين الأدبي والمالي والمصادقة عليهما بحرية تامة، وإقرار الخطط وتعديل القانون الأساسي والنظام الداخلي.",
+bylawSec2Title:"الفصل الثاني: المكتب الوطني التنفيذي",
+bylawArt15:"<b>المادة 15 (التشكيل والعهدة):</b> يُنتخب المكتب الوطني من طرف الجمعية العامة لعهدة مدتها خمس (5) سنوات، ويتكون من [7 إلى 11 عضواً]: الرئيس الوطني، نواب الرئيس، الأمانة العامة، أمانة المال، ورؤساء اللجان المتخصصة المندمجة.",
+bylawArt16:"<b>المادة 16 (صلاحيات الرئيس الوطني):</b> يمثل الجمعية في جميع تصرفات الحياة المدنية وأمام القضاء، يدعو لاجتماعات المكتب الوطني والجمعية العامة ويدير أعمالهما، يوقع بالمشاركة مع أمين المال على الحسابات والمعاملات المالية وسندات الصرف، ويوقع على الاتفاقيات والعقود المصادق عليها.",
+bylawArt17:"<b>المادة 17 (مهام الأمانات):</b> تضطلع الأمانة العامة بإدارة المراسلات وضبط السجلات ومسك الانخراطات، بينما تتولى أمانة المال مسك المحاسبة المستقلة وتحصيل الاشتراكات وإعداد التقارير المالية، وتشرف أمانة الرقمنة على المنصات وقواعد البيانات والتطبيقات.",
+bylawCh58Title:"الأبواب من الخامس إلى الثامن: الفروع، المالية، التعديل والحل",
+bylawArt18:"<b>المادة 18 (الهياكل المحلية):</b> تأسيس المكاتب والفروع الولائية بعد التصريح المسبق طبقاً للمادة 20 وما بعدها من القانون 12-06. وتلتزم المكاتب الولائية بمبدأ استقلالية الجمعية التامة وتعمل وفق برامج المكتب الوطني والنظام الداخلي.",
+bylawArt1920:"<b>المادتان 19 و 20 (الأحكام المالية):</b> الموارد من الاشتراكات والأنشطة الرقمية والهبات غير المشروطة، مع إيداعها بحساب بنكي أو بريدي وحيد ومستقل والرقابة من قِبل محافظ حسابات معتمد قانونياً.",
+bylawArt2122:"<b>المادتان 21 و 22 (التعديل والحل الإرادي):</b> تعديل القانون الأساسي بأغلبية ثلثي الحاضرين في جمعية عامة استثنائية، والحل بأغلبية ثلاثة أرباع الأعضاء مع أيلولة الممتلكات لجمعية مماثلة مستقلة أو مؤسسة عمومية طبقاً للقانون 12-06.",
+bylawArt2324:"<b>المادتان 23 و 24 (الأحكام الانتقالية والسريان):</b> تفويض الرئيس والمكتب الوطني لمباشرة إجراءات التأسيس والتصريح لدى وزارة الداخلية والجماعات المحلية واستلام الوصل، وسريان القانون الأساسي بمصادقة الجمعية العامة التأسيسية.",
+orgBadge:"الهيكلة الإدارية والتنظيمية",orgTitle:"المخطط الهيكلي للجمعية",orgSubtitle:"مرر أو اضغط على أي منصب لعرض بيانات المسؤول",
+posPresident:"رئيس الجمعية",descPresident:"الممثل القانوني والتنسيق العام",posVP:"نائب رئيس الجمعية",descVP:"إنابة الرئيس ومتابعة اللجان",
+posGS:"الأمين العام",descGS:"الإدارة والتوثيق والتقارير",posVGS:"نائب الأمين العام",posTR:"أمين المال",descTR:"التسيير المالي والميزانية",posVTR:"نائب أمين المال",descSub:"مساعد التسيير والمتابعة",
+lblAssistantsCommittees:"المساعدون (رؤساء اللجان المتخصصة المندمجة)",
+c1Title:"رئيس لجنة التنسيق والتنظيم والوسائل",c1Desc:"التنسيق العام واللوجستيك والعتاد",
+c2Title:"رئيس لجنة الإعلام والاتصال والرقمنة",c2Desc:"المنصات الذكية، الإعلام والنشر الرقمي",
+c3Title:"رئيس لجنة الأنشطة والرحلات",c3Desc:"برمجة الجولات والاستكشاف الوطني",
+c4Title:"رئيس لجنة الشؤون القانونية",c4Desc:"مطابقة القوانين واللوائح الداخلية",
+c5Title:"رئيس لجنة الشراكة والاتفاقيات",c5Desc:"عقد الاتفاقيات والشراكات المستقلة",
+posGA:"أعضاء الجمعية العامة (أعلى هيئة تقريرية)",descGA:"تضم كافة المنخرطين والأعضاء المؤسسين ومندوبي الولايات عبر كامل التراب الوطني",
+formTitle:"استمارة الانخراط",secPersonal:"المعلومات الشخصية",lblFirstName:"الاسم",lblLastName:"اللقب",lblDob:"تاريخ الميلاد",
+optDay:"اليوم",optMonth:"الشهر",optYear:"السنة",lblAge:"العمر",lblAutoCalc:"يُحسب تلقائيًا",lblBp:"مكان الميلاد (الولاية)",optChooseBp:"اختر ولاية الميلاد",
+secResidence:"مكان الإقامة",lblWl:"ولاية الإقامة",optChooseWl:"اختر الولاية",lblCm:"بلدية الإقامة",optChooseCm:"اختر الولاية أولًا",
+secContact:"معلومات الاتصال",lblPh:"رقم الهاتف",lblEm:"البريد الإلكتروني",secEducation:"المستوى الدراسي والمهنة",
+lblLv:"المستوى الدراسي",optChooseLv:"اختر المستوى",lv1:"ابتدائي",lv2:"متوسط",lv3:"ثانوي",lv4:"تكوين مهني",lv5:"جامعي",lv6:"بدون مستوى",
+lblSp:"التخصص",optChooseSp:"اختر التخصص",sp1:"علوم إنسانية واجتماعية",sp2:"آداب ولغات",sp3:"حقوق وعلوم سياسية",sp4:"علوم اقتصادية وتجارية وتسيير",sp5:"علوم وتكنولوجيا",sp6:"هندسة",sp7:"إعلام آلي",sp8:"علوم الطبيعة والحياة",sp9:"علوم طبية وصيدلة",sp10:"علوم الإعلام والاتصال",sp11:"علوم وتقنيات النشاطات البدنية والرياضية",sp12:"فنون",spOther:"أخرى",
+lblSpDetail:"اكتب التخصص بدقة",lblJb:"المهنة",optChooseJb:"اختر المهنة",
+jb1:"طالب",jb3:"موظف",jb12:"متقاعد",jbOther:"أخرى",
+lblJbDetail:"اكتب المهنة بالضبط",
+lblSector:"القطاع المنتمي إليه",optChooseSector:"اختر القطاع",
+sec1:"قطاع الشباب",sec2:"قطاع الرياضة",sec3:"قطاع التربية",sec4:"قطاع الصحة",secOther:"أخرى",
+lblSectorDetail:"اكتب القطاع بالضبط",
+lblContrib:"طبيعة مساهمتك في الجمعية",optChooseContrib:"اختر طبيعة المساهمة",
+c1:"تطوير البرمجيات و الحلول الرقمية",c2:"التنظيم و التنسيق الميداني والرحلات",c3:"الاعلام و صناعة المحتوى الرقمي",c4:"التاطير القانوني و الاداري",c5:"رائد و ناشط في حركة بيوت الشباب",
+btnSubmitForm:"إرسال طلب الانخراط",doneTitle:"تم تسجيل طلب انخراطك بنجاح",qrCardTitle:"بطاقة الانخراط الرقمية",
+btnPrint:"طباعة الاستمارة والرمز",btnAgain:"استمارة جديدة",formFooter:"الجمهورية الجزائرية الديمقراطية الشعبية · جمعية قيد التأسيس",
+globalFooterName:"الجمعية الوطنية لرواد بيوت الشباب (قيد التأسيس)",copyRights:"جميع الحقوق محفوظة",yearsUnit:"سنة",modeDark:"ليلي",modeLight:"نهاري",
+req:"يرجى ملء جميع الحقول الإلزامية (*)",ref:"رقم الملف: ",rName:"الاسم واللقب",rAge:"العمر",rRes:"الإقامة",rPh:"الهاتف",rLv:"المستوى والمهنة"
+},
+en:{
+n1:"1",n2:"2",n3:"3",n4:"4",n5:"5",navName:"Algerian Youth Hostels Pioneers Association",tipGoals:"Objectives",tipBylaws:"Bylaws",tipStructure:"Organization Chart",btnCloseStructure:"Close Chart",
+pageTitle:"National Association of Youth Hostels Pioneers (In Formation)",
+legalBanner:"Official Digital Platform — National Association of Youth Hostels Pioneers (Under Formation / Law 12-06)",
+assocName:"National Association of Youth Hostels Pioneers",badgeUnderConst:"In Formation",
+navGoals:"Objectives",navBylaws:"📜 Bylaws",navStructure:"Organization Chart",
+btnFillForm:"Join Now",btnCloseForm:"Close Form",btnCloseBylaws:"Close Bylaws",
+heroTitle:"Towards Digital Transformation & Sustainable Youth Tourism in Algeria",
+heroDesc:"An independent national initiative uniting travelers, developers, and activists to upgrade youth travel and accommodation facilities across Algeria.",
+heroBtnForm:"Go Directly to Membership Form",goalsTitle:"Strategic Objectives",goalsSubtitle:"Core pillars of the founding project",
+g1Title:"Digitalization & Innovation in Youth Service",g1Desc:"Contributing to the digital transformation of youth travel by developing tech platforms, GIS portals, and smart applications to streamline access to youth accommodation facilities.",
+g2Title:"Promoting Youth Tourism & National Mobility",g2Desc:"Encouraging youth mobility across Algeria's provinces to showcase national cultural, historical, and touristic heritage at affordable costs.",
+g3Title:"Upgrading Stay & Travel Experience",g3Desc:"Enhancing reception standards and comfort for youth hostel guests by monitoring user feedback and submitting actionable recommendations to managing authorities.",
+g4Title:"Fostering Responsible & Sustainable Travel",g4Desc:"Spreading eco-tourism and mountain sports principles while instilling respect and preservation for public facilities among travelers.",
+g5Title:"Empowerment & Network Solidarity",g5Desc:"Building an interactive network connecting travelers, tech developers, and activists to host workshops, forums, and hackathons in tourism and tech innovation.",
+bylawsBadge:"Pursuant to Law 12-06 on Associations",stateTitle:"People's Democratic Republic of Algeria",
+bylawsHeading:"Bylaws of: \"National Association of Youth Hostels Pioneers\" (In Formation)",
+bylawsLegalNote:"Founded pursuant to Law No. 12-06 dated 18 Safar 1433 (January 12, 2012) relating to associations.",
+orgBadge:"Administrative & Organizational Structure",orgTitle:"Association Organizational Chart",orgSubtitle:"Hover or tap on any role to see officer contact details",
+posPresident:"Association President",descPresident:"Legal representative & overall coordination",posVP:"Vice President",descVP:"Deputizing the president & committee oversight",
+posGS:"General Secretary",descGS:"Administration, records & reporting",posVGS:"Deputy General Secretary",posTR:"Treasurer",descTR:"Financial management & budgeting",posVTR:"Deputy Treasurer",descSub:"Operations & auditing assistance",
+lblAssistantsCommittees:"Assistants (Heads of Merged Committees)",
+c1Title:"Head of Coordination, Org & Logistics",c1Desc:"General operations & equipment supply",c2Title:"Head of Media, PR & Digitalization",c2Desc:"Smart platforms, press & outreach",
+c3Title:"Head of Activities & Travel Committee",c3Desc:"National expeditions & touring schedules",c4Title:"Head of Legal Affairs Committee",c4Desc:"Compliance & association bylaws",
+c5Title:"Head of Partnerships Committee",c5Desc:"Independent sectoral conventions",
+posGA:"General Assembly Members (Supreme Body)",descGA:"Comprises all registered members, founders & provincial delegates nationwide",
+formTitle:"Membership Application Form",secPersonal:"Personal Information",lblFirstName:"First Name",lblLastName:"Last Name",lblDob:"Date of Birth",
+optDay:"Day",optMonth:"Month",optYear:"Year",lblAge:"Age",lblAutoCalc:"Auto-calculated",lblBp:"Place of Birth (Province)",optChooseBp:"Select birth province",
+secResidence:"Residential Address",lblWl:"Province (Wilaya)",optChooseWl:"Select province",lblCm:"Municipality (Commune)",optChooseCm:"Select province first",
+secContact:"Contact Details",lblPh:"Phone Number",lblEm:"Email Address",secEducation:"Education & Profession",
+lblLv:"Educational Level",optChooseLv:"Select level",lv1:"Primary",lv2:"Middle School",lv3:"High School",lv4:"Vocational Training",lv5:"University",lv6:"No formal schooling",
+lblSp:"Specialization",optChooseSp:"Select field",sp1:"Humanities & Social Sciences",sp2:"Literature & Languages",sp3:"Law & Political Science",sp4:"Economics & Management",sp5:"Science & Technology",sp6:"Engineering",sp7:"Computer Science",sp8:"Natural & Life Sciences",sp9:"Medicine & Pharmacy",sp10:"Media & Communication",sp11:"Sports & Physical Education",sp12:"Arts",spOther:"Other",
+lblSpDetail:"Specify your field accurately",lblJb:"Profession",optChooseJb:"Select profession",
+jb1:"Student",jb3:"Employee",jb12:"Retired",jbOther:"Other",
+lblJbDetail:"Specify your exact occupation",
+lblSector:"Sector you belong to",optChooseSector:"Select sector",
+sec1:"Youth sector",sec2:"Sports sector",sec3:"Education sector",sec4:"Health sector",secOther:"Other",
+lblSectorDetail:"Specify your sector",
+lblContrib:"Nature of your contribution to the association",optChooseContrib:"Select contribution type",
+c1:"Software development & digital solutions",c2:"Field organization, coordination & trips",c3:"Media & digital content creation",c4:"Legal & administrative mentoring",c5:"Pioneer & activist in the youth hostels movement",
+btnSubmitForm:"Submit Membership Request",doneTitle:"Your application has been received successfully",qrCardTitle:"Digital Membership Card",
+btnPrint:"Print Form & QR Code",btnAgain:"New Application",formFooter:"People's Democratic Republic of Algeria · Association in formation",
+globalFooterName:"National Association of Youth Hostels Pioneers (In Formation)",copyRights:"All Rights Reserved",yearsUnit:"years",modeDark:"Dark",modeLight:"Light",
+req:"Please fill all required fields (*)",ref:"Ref: ",rName:"Full Name",rAge:"Age",rRes:"Residence",rPh:"Phone",rLv:"Level & Job"
+}};
+const SCRIPT_URL='https://script.google.com/macros/s/AKfycbzLAJYwuSNeC8vasqjqPCUvljQmJsgGNsfTTSrKQsyVcPIleppVdDA0LbhXaeB_EU7X/exec';
+const tr=k=>(T[lang]&&T[lang][k])||T.ar[k]||"";
+const store={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
+let lang=store.get('app_lang')||'ar';
+const $=id=>document.getElementById(id);
 
-      const birth = pick(m, ['birthDate','birth','dateNaissance','تاريخ الميلاد','date of birth','Date de naissance','dob']);
-      let age = pick(m, ['age','العمر','Age']);
-      if (!age && birth) {
-        const y = parseInt(String(birth).replace(/[^\d].*$/,'').slice(0, 4), 10);
-        if (y > 1900 && y < 2100) age = new Date().getFullYear() - y;
-      }
+function applyTheme(dark){document.documentElement.classList.toggle('dark',dark);store.set('app_theme',dark?'dark':'light');$('themeIcon').textContent=dark?'☀️':'🌙';$('themeLabel').textContent=dark?tr('modeLight'):tr('modeDark')}
+function applyLanguage(l){
+  lang=l;store.set('app_lang',l);
+  document.documentElement.lang=l;document.documentElement.dir=l==='en'?'ltr':'rtl';
+  $('langLabel').textContent=l==='en'?'العربية':'English';
+  document.querySelectorAll('[data-i18n]').forEach(el=>{el.innerHTML=tr(el.dataset.i18n)});
+  document.querySelectorAll('[data-tip]').forEach(el=>{el.title=tr(el.dataset.tip);el.setAttribute('aria-label',el.title)});
+  $('pageTitle').textContent=tr('pageTitle');
+  applyTheme(document.documentElement.classList.contains('dark'));
+  const wl=$('wl');if(!wl.value)$('cm').options[0].textContent=tr('optChooseCm');
+  calcAge();
+}
+$('themeToggleBtn').onclick=()=>applyTheme(!document.documentElement.classList.contains('dark'));
+$('langToggleBtn').onclick=()=>applyLanguage(lang==='ar'?'en':'ar');
 
-      // حقول API الفعلية: resState=الولاية، resCity=البلدية، birthState=ولاية الميلاد، eduLevel، profession
-      let wilaya = pick(m, [
-        'resState','res_state','wilaya','Wilaya','الولاية','ولاية','ولاية الإقامة','ولاية السكن',
-        'ولاية الإقامة الحالية','ولاية السكن الحالية','state','State'
-      ]);
-      let residence = pick(m, [
-        'resCity','res_city','residence','city','commune','municipality','البلدية','بلدية',
-        'مكان الإقامة','الإقامة','Ville','Commune','البلدية / الدائرة'
-      ]);
-      if (!wilaya || wilaya === '—') {
-        const src = residence || pick(m, ['address','العنوان','Address']) || '';
-        const parts = String(src).split(/\s*[-–—,،\/|]\s*/).map(s => s.trim()).filter(Boolean);
-        if (parts.length >= 2) {
-          wilaya = parts[parts.length - 1];
-          if (!residence) residence = parts[0];
-        }
-      }
-      if (!wilaya) wilaya = '—';
-      else wilaya = normalizeWilayaName(wilaya) || wilaya;
-      if (!residence) residence = wilaya;
+/* إظهار/إخفاء الأقسام */
+function toggle(id,show){const s=$(id);s.classList.toggle('hide',!show);if(show)s.scrollIntoView({behavior:'smooth',block:'start'});else $('hero').scrollIntoView({behavior:'smooth'})}
+[['navOpenBylawsBtn','bylaws'],['navOpenStructureBtn','structure'],['navOpenFormBtn','register'],['heroOpenFormBtn','register']].forEach(([b,s])=>$(b).onclick=()=>toggle(s,true));
+$('closeBylawsBtn').onclick=()=>toggle('bylaws',false);
+$('closeFormBtn').onclick=()=>toggle('register',false);
+$('closeStructureBtn').onclick=()=>toggle('structure',false);
 
-      const birthPlace = pick(m, [
-        'birthState','birth_state','birthPlace','lieuNaissance',
-        'مكان الميلاد','مكان الولادة','ولاية الميلاد','Lieu de naissance'
-      ]) || '—';
+/* نافذة بيانات المسؤول */
+const pop=$('orgPopover');
+function showPop(n){
+  $('popIco').textContent=n.dataset.ico||'👤';$('popName').textContent=n.dataset.name;$('popRole').textContent=n.dataset.role;
+  $('popPhone').textContent=n.dataset.phone;$('popPhone').href='tel:'+n.dataset.phone.replace(/\s+/g,'');
+  pop.classList.remove('hide');
+  const r=n.getBoundingClientRect(),w=256;
+  let top=r.top-pop.offsetHeight-12;if(top<10)top=r.bottom+12;
+  let left=Math.max(10,Math.min(r.left+r.width/2-w/2,innerWidth-w-10));
+  pop.style.left=left+'px';pop.style.top=top+'px';
+}
+document.querySelectorAll('.org-node').forEach(n=>{
+  n.addEventListener('mouseenter',()=>showPop(n));
+  n.addEventListener('mouseleave',()=>pop.classList.add('hide'));
+  n.addEventListener('click',e=>{e.stopPropagation();showPop(n)});
+});
+document.addEventListener('click',e=>{if(!pop.contains(e.target))pop.classList.add('hide')});
 
-      return {
-        id: pick(m, ['id','ref','Ref','reference','رقم','رقم التسجيل']) ||
-            (pick(m, ['timestamp','Timestamp']) ? String(pick(m, ['timestamp','Timestamp'])).replace(/\D/g,'').slice(-8) : '') ||
-            ('RW-' + Math.random().toString(36).slice(2, 8).toUpperCase()),
-        fullName: fullName,
-        birthDate: birth || '—',
-        age: age || '—',
-        birthPlace: birthPlace,
-        wilaya: wilaya,
-        residence: residence,
-        phone: pick(m, ['phone','tel','telephone','الهاتف','رقم الهاتف','Téléphone','Phone']) || '—',
-        email: pick(m, ['email','mail','البريد','البريد الإلكتروني','Email','E-mail']) || '—',
-        education: pick(m, ['eduLevel','edu_level','education','niveau','level','المستوى','المستوى الدراسي','المستوى الأكاديمي','Niveau']) || '—',
-        specialty: pick(m, ['specialty','specialite','spec','التخصص','التخصصات','المهارة','Spécialité']) || '—',
-        job: pick(m, ['profession','job','metier','المهنة','المهنة الحالية','الوظيفة','Profession']) || '—',
-        timestamp: pick(m, ['timestamp','date','createdAt','تاريخ التسجيل','توقيت التسجيل','Timestamp','Date']) || ''
-      };
-    }
+/* QR */
+function makeQR(text){const i=document.createElement('img');i.width=i.height=150;i.alt='QR Code';i.src=`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(text)}&color=063b2c`;return i}
 
-    /* ========== فلتر الولايات ========== */
-    function populateWilayaFilter() {
-      const sel = document.getElementById('wilayaFilter');
-      const current = sel.value;
-      const set = new Set();
-      allMembers.forEach(m => { if (m.wilaya && m.wilaya !== '—') set.add(m.wilaya); });
-      const list = Array.from(set).sort((a, b) => a.localeCompare(b, 'ar'));
-      sel.innerHTML = '<option value="">جميع الولايات</option>' +
-        list.map(w => `<option value="${escapeHtml(w)}">${escapeHtml(w)}</option>`).join('');
-      if (current) sel.value = current;
-    }
+/* الولايات والبلديات */
+const W="أدرار,الشلف,الأغواط,أم البواقي,باتنة,بجاية,بسكرة,بشار,البليدة,البويرة,تمنراست,تبسة,تلمسان,تيارت,تيزي وزو,الجزائر,الجلفة,جيجل,سطيف,سعيدة,سكيكدة,سيدي بلعباس,عنابة,قالمة,قسنطينة,المدية,مستغانم,المسيلة,معسكر,ورقلة,وهران,البيض,إليزي,برج بوعريريج,بومرداس,الطارف,تندوف,تيسمسيلت,الوادي,خنشلة,سوق أهراس,تيبازة,ميلة,عين الدفلى,النعامة,عين تموشنت,غرداية,غليزان,تيميمون,برج باجي مختار,أولاد جلال,بني عباس,عين صالح,عين قزام,تقرت,جانت,المغير,المنيعة".split(",");
+/* بلديات الولايات الـ58 (1541 بلدية) — المفتاح هو رقم الولاية */
+const C={"1":["أدرار","اقبلي","أولف","بودة","فنوغيل","إن زغمير","أولاد أحمد تيمي","رقان","سالي","السبع","تامنطيط","تامست","تيمقتن","تيت","تسابيت","زاوية كنتة"],"2":["أبو الحسن","عين مران","بنايرية","بني بوعتاب","بني حواء","بني راشد","بوقادير","بوزغاية","بريرة","الشطية","الشلف","الظهرة","الحجاج","الكريمية","المرسى","حرشون","الهرانفة","الأبيض مجاجة","مصدق","وادي الفضة","وادي قوسين","وادي سلي","أولاد عباس","أولاد بن عبد القادر","أولاد فارس","أم الدروع","سنجاس","سيدي عبد الرحمن","سيدي عكاشة","الصبحة","تاجنة","تلعصة","تاوقريت","تنس","الزبوجة"],"3":["أفلو","عين ماضي","عين سيدي علي","البيضاء","بن ناصر بن شهرة","بريدة","العسافية","الغيشة","الحويطة","قلتة سيدي سعد","الحاج مشري","حاسي الدلاعة","حاسي الرمل","الخنق","قصر الحيران","الأغواط","وادي مرة","وادي مزي","سبقاق","سيدي بوزيد","سيدي مخلوف","تاجموت","تاجرونة","تاويالة"],"4":["عين ببوش","عين البيضاء","عين الديس","عين فكرون","عين كرشة","عين مليلة","عين الزيتون","بحير الشرقي","بريش","بئر الشهداء","الضلعة","العامرية","البلالة","الجازية","الفجوج بوغرارة سعودي","الحرملية","فكيرينة","هنشير تومغني","قصر الصباحي","مسكيانة","وادي نيني","أولاد قاسم","أولاد حملة","أولاد زواي","أم البواقي","الرحية","سيقوس","سوق نعمان","الزرق"],"5":["عين جاسر","عين التوتة","عين ياقوت","أريس","عزيل عبد القادر","بريكة","باتنة","بني فضالة الحقانية","بيطام","بولهيلات","بومقر","بومية","بوزينة","الشمرة","شير","جرمة","الجزار","الحاسي","المعذر","فسديس","فم الطوب","غسيرة","القصبات","القيقبة","حيدوسة","إشمول","إينوغيسن","كيمل","قصر بلزمة","لارباع","لازرو","لمسان","إمدوكل","معافة","منعة","مروانة","نقاوس","وادي الشعبة","وادي الماء","وادي الطاقة","أولاد عمار","أولاد عوف","أولاد فاضل","أولاد سلام","أولاد سي سليمان","عيون العصافير","الرحبات","رأس العيون","سفيان","سقانة","سريانة","تكوت","تالخمت","تاكسلانت","تازولت","ثنية العابد","تيغانمين","تغرغار","تيلاطو","تيمقاد","زانة البيضاء"],"6":["أدكار","أيت رزين","أيت إسماعيل","أقبو","أكفادو","أمالو","أميزور","أوقاس","برباشة","بجاية","بني جليل","بني كسيلة","بني مليكش","بني معوش","بو جليل","بوحمزة","بوخليفة","شلاطة","شميني","درقينة","ذراع القايد","الفلاي","القصر","فناية الماثن","فرعون","أوزلاقن","إغيل علي","اغرم","كنديرة","خراطة","مسيسنة","مالبو","وادي غير","صدوق","سيدي عياد","سيدي عيش","سمعون","سوق لإثنين","سوق اوفلا","تالة حمزة","تامقرة","تامريجت","تاوريرت إغيل","تاسكريوت","تازمالت","طيبان","تيشي","تيفرة","تيمزريت","تينبدار","تيزي نبربر","توجة"],"7":["عين الناقة","عين زعطوط","بسكرة","برج بن عزوز","بوشقرون","برانيس","شتمة","جمورة","الفيض","الغروس","الحاجب","الحوش","القنطرة","الوطاية","فوغالة","خنقة سيدي ناجي","ليشانة","ليوة","مشونش","مخادمة","المزيرعة","مليلي","أوماش","أورلال","سيدي عقبة","طولقة","زريبة الوادي"],"8":["العبادلة","بشار","بني ونيف","بوكايس","عرق فراج","القنادسة","لحمر","مشرع هواري بومدين","المريجة","موغل","تبلبالة","تاغيت"],"9":["عين الرمانة","بني مراد","بني تامو","بن خليل","البليدة","بوعرفة","بوفاريك","بوقرة","بوعينان","الشبلي","الشفة","الشريعة","جبابرة","العفرون","قرواو","حمام ملوان","الأربعاء","مفتاح","موزاية","وادي جر","وادي العلايق","اولاد سلامة","أولاد يعيش","صوحان","الصومعة"],"10":["أغبالو","أهل القصر","عين الحجر","عين العلوي","عين الترك","عين بسام","أيت لعزيز","أعمر","بشلول","بئر غبالو","برج أوخريص","بودربالة","البويرة","بوكرم","شرفة","الدشمية","ديرة","جباحية","العجيبة","الأسنام","الهاشمية","الخبوزية","الحاكمية","المقراني","قرومة","الحجرة الزرقاء","حيزر","حنيف","قادرية","الأخضرية","أمشدالة","معلة","المعمورة","مزدور","وادي البردي","أولاد راشد","روراوة","ريدان","سحاريج","سوق الخميس","سور الغزلان","تاغزوت","تاقديت","آث منصور","زبربر"],"11":["ابلسة","عين امقل","أدلس","تمنراست","تاظروك"],"12":["عين الزرقاء","بجن","بكارية","بئر الذهب","بئر مقدم","بئر العاتر","بوخضرة","بولحاف الدير","الشريعة","الكويف","الماء الابيض","المريج","المزرعة","العقلة","العقلة المالحة","العوينات","الحويجبات","فركان","قريقر","الحمامات","مرسط","نقرين","الونزة","أم علي","صفصاف الوسرى","سطح قنطيس","تبسة","ثليجان"],"13":["عين فتاح","عين فزة","عين غرابة","عين الكبيرة","عين النحالة","عين تالوت","عين يوسف","عمير","باب العسة","بني بهدل","بني بوسعيد","بني خلاد","بني مستر","بني وارسوس","بني صميل","بني سنوس","بن سكران","بوحلو","البويهي","شتوان","دار يغمراسن","جبالة","العريشة","العزايل","الفحول","القور","فلاوسن","الغزوات","حمام بوغرارة","الحناية","هنين","مغنية","منصورة","مرسى بن مهيدي","مسيردة الفواقة","ندرومة","وادي الخضر","أولاد ميمون","أولاد رياح","الرمشي","صبرة","سبعة شيوخ","سبدو","سيدي العبدلي","سيدي الجيلالي","سيدي مجاهد","السواحلية","السواني","سوق الثلاثاء","تيرني بني هديل","تيانت","تلمسان","زناتة"],"14":["عين بوشقيف","عين الذهب","عين دزاريت","عين الحديد","عين كرمس","بوقرة","شحيمة","دحموني","جبيلات الرصفاء","جيلالي بن عمار","الفايجة","فرندة","قرطوفة","حمادية","قصر الشلالة","مادنة","مهدية","مشرع الصفا","مدريسة","مدروسة","مغيلة","ملاكو","الناظورة","النعيمة","وادي ليلي","الرحوية","الرشايقة","السبعين","السبت","سرغين","سي عبد الغني","سيدي عبد الرحمن","سيدي علي ملال","سيدي بختي","سيدي حسني","السوقر","تاقدمت","تخمرت","تيارت","تيدة","توسنينة","زمالة الأمير عبد القادر"],"15":["أبي يوسف","أغريب","أقني قغران","عين الحمام","عين الزاوية","أيت عقـواشة","أيت بــوادو","أيت بومهدي","أيت خليلي","أيت يحي موسى","أيت عيسى ميمون","أيت شافع","أيت محمود","أيت أومالو","أيت تودرت","أيت يحيى","اقبيل","أقرو","أسي يوسف","عزازقة","أزفون","بنــــي زمنزار","بني عيسي","بني دوالة","بني يني","بني زيكــي","بوغني","بوجيمة","بونوح","بوزقــن","ذراع بن خدة","ذراع الميزان","فريحة","فريقات","إبودرارن","إيجــار","إفــرحــونان","إيفيغاء","إفليـــسن","إيلـيــلتـن","إيلولة أومـــالو","إمســوحال","إيرجـــن","الأربعــاء ناث إيراثن","معـــاتقة","ماكودة","مشطراس","مقــلع","ميزرانـــة","مكيرة","واسيف","واضية","واقنون","سيدي نعمان","صوامـــع","سوق الإثنين","تادمايت","تيقـزيرت","تيمـيزار","تيرمتين","تيزي نثلاثة","تيزي غنيف","تيزي وزو","تيزي راشد","إعــكورن","يطــافن","زكري"],"16":["عين بنيان","عين طاية","الجزائر الوسطى","باب الوادي","باب الزوار","بابا حسن","باش جراح","براقي","ابن عكنون","بني مسوس","بئر مراد رايس","بئر خادم","بئر توتة","بولوغين بن زيري","برج البحري","برج الكيفان","بوروبة","بوزريعة","القصبة","الشراقة","الدار البيضاء","دالي ابراهيم","جسر قسنطينة","الدويرة","الدرارية","العاشور","الابيار","الحراش","المدنية","المغارية","المرسى","المرادية","الحمامات","هراوة","حسين داي","حيدرة","الخرايسية","القبة","الكاليتوس","المعالمة","محمد بلوزداد","المحمدية","وادي قريش","وادي السمار","اولاد شبل","اولاد فايت","الرحمانية","الرايس حميدو","رغاية","الرويبة","السحاولة","سيدي امحمد","سيدي موسى","سويدانية","سطاوالي","تسالة المرجة","زرالدة"],"17":["عين الشهداء","عين الإبل","عين فقه","عين معبد","عين وسارة","عمورة","بنهار","بن يعقوب","بيرين","بويرة الأحداب","الشارف","دار الشيوخ","دلدول","الجلفة","دويس","القديد","الادريسية","الخميس","فيض البطمة","قرنيني","قطارة","حد الصحاري","حاسي بحبح","حاسي العش","حاسي فدول","مسعد","مليليحة","مجبارة","أم العظام","سد الرحال","سلمانة","سيدي بايزيد","سيدي لعجال","تعظميت","زعفران","زكار"],"18":["برج الطهر","بودريعة بني ياجيس","بوراوي بلهادف","بوسيف أولاد عسكر","الشحنة","الشقفة","الجمعة بني حبيبي","جيملة","العنصر","العوانة","القنار نشفي","الميلية","الامير عبد القادر","أراقن سويسي","غبالة","جيجل","قاوس","خيري واد عجول","وجانة","أولاد رابح","أولاد يحيى خدروش","سلمى بن زيادة","السطارة","سيدي عبد العزيز","سيدي معروف","الطاهير","تاكسنة","زيامة منصورية"],"19":["عين عباسة","عين أرنات","عين أزال","عين الكبيرة","عين الحجر","عين ولمان","عين لقراج","عين الروى","عين السبت","أيت نوال مزادة","ايت تيزي","عموشة","بابور","بازر سكرة","بيضاء برج","بلاعة","بني شبانة","بني فودة","بني ورتيلان","بني وسين","بني عزيز","بني موحلي","بئر حدادة","بئر العرش","بوعنداس","بوقاعة","بوسلام","بوطالب","الدهامشة","جميلة","ذراع قبيلة","العلمة","أوريسيا","الولجة","قلال","قلتة زرقاء","قنزات","قجال","حمام السخنة","الحامة","حمام قرقور","حربيل","قصر الابطال","معاوية","ماوكلان","مزلوق","واد البارد","أولاد عدوان","أولاد صابر","أولاد سي أحمد","أولاد تبان","الرصفة","صالح باي","سرج الغول","سطيف","تاشودة","تالة إيفاسن","الطاية","التلة","تيزي نبشار"],"20":["عين الحجر","عين السخونة","عين السلطان","دوي ثابت","الحساسنة","هونت","المعمورة","مولاي العربي","أولاد إبراهيم","أولاد خالد","سعيدة","سيدي احمد","سيدي عمر","سيدي بوبكر","تيرسين","يوب"],"21":["عين بوزيان","عين شرشار","عين قشرة","عين زويت","عزابة","بكوش لخضر","بن عزوز","بني بشير","بني ولبان","بني زيد","بين الويدان","بوشطاطة","الشرايع","القل","جندل سعدي محمد","الحروش","الغدير","الحدائق","المرسى","مجاز الدشيش","السبت","فلفلة","حمادي كرومة","قنواع","الكركرة","خناق مايو","وادي الزهور","الولجة بولبلوط","أولاد عطية","أولاد حبابة","أم الطوب","رمضان جمال","صالح بو الشعور","سيدي مزغيش","سكيكدة","تمالوس","زردازة","الزيتونة"],"22":["عين البرد","عين قادة","عين الثريد","عين تندمين","عين أدن","العمارنة","بضرابين المقراني","بلعربي","بن باديس","بن عشيبة شلية","بئر الحمام","بوجبهة البرج","بوخنفيس","شيطوان البلايلة","الضاية","الحصيبة","حاسي دحو","حاسي زهانة","لمطار","مكدرة","مرحوم","مسيد","مرين","مزاورو","مصطفى بن ابراهيم","مولاي سليسن","وادي السبع","وادي سفيون","وادي تاوريرة","راس الماء","رجم دموش","السهالة الثورة","سفيزف","سيدي علي بن يوب","سيدي علي بوسيدي","سيدي بلعباس","سيدي ابراهيم","سيدي شعيب","سيدي دحو الزاير","سيدي حمادوش","سيدي خالد","سيدي لحسن","سيدي يعقوب","طابية","تاودموت","تفسور","تغاليمت","تلاغ","تنيرة","تسالة","تلموني","زروالة"],"23":["عين الباردة","عنابة","برحال","شطايبي","الشرفة","البوني","العلمة","الحجار","واد العنب","سرايدي","سيدي عمار","التريعات"],"24":["عين بن بيضاء","عين العربي","عين مخلوف","عين رقادة","عين صندل","بلخير","بن جراح","بني مزلين","برج صباط","بوحشانة","بوحمدان","بوعاتي محمود","بوشقوف","بومهرة أحمد","الدهوارة","جبالة الخميسي","الفجوج","قلعة بوصبع","قالمة","حمام دباغ","حمام النبايل","هيليوبوليس","نشماية","لخزارة","مجاز عمار","مجاز الصفاء","هواري بومدين","وادي الشحم","وادي فراغة","وادي الزناتي","رأس العقبة","الركنية","سلاوة عنونة","تاملوكة"],"25":["عين عبيد","عين السمارة","أبن باديس الهرية","بني حميدان","قسنطينة","ديدوش مراد","الخروب","حامة بوزيان","ابن زياد","بوجريو مسعود","أولاد رحمون","زيغود يوسف"],"26":["عين بوسيف","عين اقصير","العيساوية","عزيز","بعطة","بن شكاو","بني سليمان","البرواقية","بئر بن عابد","بوغار","بوعيش","بوعيشون","بوشراحيل","بوغزول","بوسكن","الشهبونية","شلالة العذاورة","شنيقل","دراق","جواب","ذراع السمار","العزيزية","القلب الكبير","الحمدانية","الحوضان","العمارية","العوينات","حناشة","الكاف الاخضر","خمس جوامع","قصر البخاري","مغراوة","المدية","مجبر","مزغنة","مفاتحة","ميهوب","عوامري","وادي حربيل","أولاد عنتر","أولاد بوعشرة","أولاد إبراهيم","أولاد دايد","أولاد امعرف","أولاد هلال","أم الجليل","وزرة","الربعية","السانق","سدراية","سغوان","سي المحجوب","سيدي دامد","سيدي نعمان","سيدي الربيع","سيدي زهار","سيدي زيان","السواقي","تابلاط","تفراوت","تمسقيدة","تيزي مهدي","ثلاث دوائر","الزبيرية"],"27":["عشعاشة","عين بودينار","عين نويسي","عين سيدي الشريف","عين تادلس","بن عبد المالك رمضان","بوقيراط","فرناقة","حجاج","حاسي ماماش","الحسيان (بني ياحي","خضرة","خير الدين","منصورة","مزغران","ماسرة","مستغانم","نكمارية","وادي الخير","أولاد بوغالم","أولاد مع الله","صفصاف","صيادة","سيدي علي","سيدي بلعطار","سيدي لخضر","سيرات","السوافلية","سور","ستيدية","تزقايت","الطواهرية"],"28":["عين الحجل","عين الملح","عين فارس","عين الخضراء","عين الريش","بلعايبة","بن سرور","بني يلمان","بن زوه","برهوم","بئر فضة","بوسعادة","بوطي السايح","شلال","دهاهنة","جبل مساعد","الهامل","الحوامد","حمام الضلعة","خطوطي سد الجير","خبانة","المعاضيد","معاريف","مقرة","مسيف","امجدل","مناعة","محمد بوضياف","المسيلة","المطارفة","ونوغة","أولاد عدي لقبالة","أولاد دراج","أولاد ماضي","أولاد منصور","أولاد سيدي ابراهيم","أولاد سليمان","ولتام","سيدي عيسى","سيدي عامر","سيدي هجرس","سيدي امحمد","سليم","السوامع","تامسة","تارمونت","زرزور"],"29":["عين فارس","عين فكان","عين فراح","عين أفرص","العلايمية","عوف","بنيان","بوهني","بوحنيفية","الشرفاء","البرج","القعدة","الغمري","القطنة","الحشم","القرط","المأمونية","المنور","فراقيق","فروحة","غروس","غريس","قرجوم","حسين","خلوية","ماقضة","ماوسة","معسكر","المطمور","مقطع الدوز","المحمدية","نسمط","عقاز","وادي الأبطال","وادي التاغية","رأس عين عميروش","سجرارة","السهايلية","سيدي عبد الجبار","سيدي عبد المومن","سيدي بوسعيد","سيدي قادة","سيق","تيغنيف","تيزي","زهانة","زلامطة"],"30":["عين البيضاء","البرمة","حاسي بن عبد الله","حاسي مسعود","انقوسة","ورقلة","الرويسات","سيدي خويلد"],"31":["عين البية","عين الكرمة","عين الترك","أرزيو","بن فريحة","بطيوة","بئر الجير","بوفاتيس","بوسفر","بوتليليس","العنصر","البراية","الكرمة","السانية","قديل","حاسي بن عقبة","حاسي بونيف","حاسي مفسوخ","مرسى الحجاج","المرسى الكبير","مسرغين","وهران","وادي تليلات","سيدي بن يبقى","سيدي الشحمي","طفراوي"],"32":["عين العراك","اربوات","بوعلام","بوقطب","بوسمغون","بريزينة","الشقيق","شلالة","البيض","الأبيض سيدي الشيخ","البنود","الخيثر","المحرة","الغاسول","الكاف الأحمر","كراكدة","رقاصة","سيدي عامر","سيدي سليمان","سيدي طيفور","ستيتن","توسمولين"],"33":["برج عمر إدريس","دبداب","إيليزي","إن أمناس"],"34":["عين تاغروت","عين تسرة","برج بوعريرج","بليمور","بن داود","بئر قاصد علي","برج الغدير","برج زمورة","القلة","جعافرة","العش","الياشير","العناصر","الحمادية","الماين","المهير","غيلاسة","حرازة","حسناوة","خليل","القصور","المنصورة","مجانة","أولاد أبراهم","أولاد دحمان","أولاد سيدي ابراهيم","الرابطة","رأس الوادي","سيدي أمبارك","تفرق","تقلعيت","تسامرت","ثنية النصر","تيكستار"],"35":["أعفير","عمال","بغلية","بن شود","بني عمران","برج منايل","بودواو","بودواو البحري","بومرداس","بوزقزة قدارة","شعبة العامر","قورصو","دلس","جنات","الخروبة","حمادي","يسر","خميس الخشنة","الاربعطاش","لقاطة","الناصرية","أولاد عيسى","أولاد هداج","أولاد موسى","سي مصطفى","سيدي داود","سوق الحد","تاورقة","الثنية","تيجلابين","تيمزريت","زموري"],"36":["عين العسل","عين الكرمة","عصفور","بن مهيدي","بريحان","البسباس","بوقوس","بوحجار","بوثلجة","شبيطة مختار","الشافية","شحاني","الذرعـان","الشط","العيون","القالة","الطارف","حمام بني صالح","بحيرة الطيور","وادي الزيتون","رمل السوق","السوارخ","زريزر","الزيتونة"],"37":["أم العسل","تندوف"],"38":["عماري","بني شعيب","بني لحسن","برج بونعامة","برج الأمير عبد القادر","بوقائد","خميستي","الأربعاء","لرجام","العيون","الأزهرية","المعاصم","الملعب","أولاد بسام","سيدي عابد","سيدي بوتوشنت","سيدي العنتري","سيدي سليمان","تملاحت","ثنية الاحد","تيسمسيلت","اليوسفية"],"39":["البياضة","بن قشة","الدبيلة","دوار الماء","العقلة","الوادي","قمار","الحمراية","حساني عبد الكريم","حاسي خليفة","كوينين","المقرن","اميه وانسة","النخلة","وادي العلندة","ورماس","الرقيبة","الرباح","سيدي عون","تغزوت","الطالب العربي","الطريفاوي"],"40":["عين الطويلة","بابار","بغاي","بوحمامة","ششار","شلية","جلال","الحامة","المحمل","الولجة","انسيغة","قايس","خنشلة","خيران","مصارة","متوسة","أولاد رشاش","الرميلة","طامزة","تاوزيانت","يابوس"],"41":["عين سلطان","عين الزانة","بئر بوحوش","الدريعة","الحدادة","الحنانشة","الخضارة","خميسة","المشروحة","مداوروش","المراهنة","وادي الكبريت","أولاد إدريس","أولاد مومن","أم العظايم","ويلان","الراقوبة","سافل الويدان","سدراتة","سيدي فرج","سوق أهراس","تاورة","ترقالت","تيفاش","الزعرورية","الزوابي"],"42":["أغبال","أحمر العين","عين تاقورايت","الحطاطبة","بني ميلك","بوهارون","بواسماعيل","بورقيقة","الشعيبة","شرشال","الداموس","دواودة","فوكة","قوراية","حجوط","حجرة النص","خميستي","القليعة","الأرهاط","مناصر","مراد","مسلمون","الناظور","سيدي غيلاس","سيدي راشد","سيدي سميان","سيدي عامر","تيبازة"],"43":["أحمد راشدي","عين البيضاء أحريش","عين الملوك","عين التين","اعميرة اراس","بن يحي عبد الرحمن","بوحاتم","شلغوم العيد","الشيقارة","دراحي بوصلاح","العياضي برباس","مشيرة","فرجيوة","القرارم قوقة","حمالة","ميلة","مينار زارزة","وادي العثمانية","وادي النجاء","وادي سقان","أولاد اخلوف","الرواشد","سيدي خليفة","سيدي مروان","تاجنانت","تسدان حدادة","التلاغمة","ترعي باينان","تسالة لمطاعي","تيبرقنت","يحي بني قشة","زغاية"],"44":["عين البنيان","عين بويحيى","عين الدفلى","عين الاشياخ","عين السلطان","عين التركي","عريب","بربوش","بطحية","بلعاص","بن علال","بئر ولد خليفة","برج الأمير خالد","بومدفع","بوراشد","جليدة","جمعة أولاد الشيخ","جندل","العبادية","العامرة","العطاف","الماين","حمام ريغة","الحسانية","الحسينية","خميس مليانة","المخاطرية","مليانة","وادي الشرفاء","واد الجمعة","الروينة","سيدي الأخضر","تاشتة زقاغة","طارق بن زياد","تبركانين","زدين"],"45":["عين بن خليل","عين الصفراء","عسلة","جنين بورزق","البيوض","القصدير","مكمن بن عمار","المشرية","مغرار","النعامة","سفيسيفة","تيوت"],"46":["أغلال","عين الأربعاء","عين الكيحل","عين تموشنت","عين الطلبة","عقب الليل","بني صاف","بوزجار","شعبة اللحم","شنتوف","العامرية","المالح","المساعيد","الأمير عبد القادر","حمام بوحجر","الحساسنة","حاسي الغلة","وادي برقش","وادي الصباح","أولاد بوجمعة","أولاد الكيحل","ولهاصة الغرابة","سيدي بن عدة","سيدي بومدين","سيدي ورياش","سيدي صافي","تامزورة","تارقة"],"47":["بريان","بونورة","ضاية بن ضحوة","العطف","غرداية","القرارة","المنصورة","متليلي","سبسب","زلفانة"],"48":["عين الرحمة","عين طارق","عمي موسى","بلعسل بوزقزة","بن داود","بني درقن","بني زنطيس","دار بن عبد الله","جديوية","الحاسي","الحمادنة","الولجة","القطار","المطمر","حد الشكالة","حمري","القلعة","لحلاف","مازونة","مديونة","منداس","مرجة سيدي عابد","واريزان","وادي الجمعة","وادي السلام","وادي رهيو","أولاد يعيش","أولاد سيدي الميهوب","الرمكة","غليزان","سيدي خطاب","سيدي لزرق","سيدي أمحمد بن علي","سيدي امحمد بن عودة","سيدي سعادة","سوق الحد","يلل","زمورة"],"49":["أوقروت","شروين","دلدول","قصر قدور","المطارفة","أولاد عيسى","أولاد السعيد","طالمين","تيميمون","تنركوك"],"50":["برج باجي مختار","تيمياوين"],"51":["بسباس","الشعيبة","الدوسن","أولاد جلال","رأس الميعاد","سيدي خالد"],"52":["بني عباس","بن يخلف","الواتة","إقلي","كرزاز","القصابي","أولاد خضير","تامترت","تيمودي"],"53":["عين صالح","فقارة الزوى","إينغر"],"54":["عين قزام","تين زواتين"],"55":["بن ناصر","بلدة اعمر","العالية","الحجيرة","المقارين","المنقر","النزلة","سيدي سليمان","الطيبات","تبسبست","تماسين","تقرت","الزاوية العابدية"],"56":["برج الحواس","جانت"],"57":["جامعة","المغير","المرارة","أم الطيور","سيدي عمران","سيدي خليل","سطيل","تندلة"],"58":["المنيعة","حاسي الفحل","حاسي القارة"]};
 
-    /* ========== البحث والفلترة ========== */
-    function filterData() {
-      const q = (document.getElementById('searchInput').value || '').trim().toLowerCase();
-      const w = document.getElementById('wilayaFilter').value;
-      filteredMembers = allMembers.filter(m => {
-        if (w && m.wilaya !== w) return false;
-        if (!q) return true;
-        const hay = [m.fullName, m.phone, m.email, m.wilaya, m.residence, m.specialty, m.job, m.id]
-          .join(' ').toLowerCase();
-        return hay.includes(q);
-      });
-      updateStats();
-      updateCharts();
-      renderTable();
-    }
+(function init(){
+  const d=$('bd_d');for(let i=1;i<=31;i++)d.innerHTML+=`<option value="${i}">${i}</option>`;
+  const m=$('bd_m');for(let i=1;i<=12;i++)m.innerHTML+=`<option value="${i}">${String(i).padStart(2,'0')}</option>`;
+  const y=$('bd_y'),cy=new Date().getFullYear();for(let v=cy-10;v>=cy-80;v--)y.innerHTML+=`<option value="${v}">${v}</option>`;
+  W.forEach((n,i)=>{const o=`<option value="${i+1}">${i+1} - ${n}</option>`;$('bp').innerHTML+=o;$('wl').innerHTML+=o});
+  const st=store.get('app_theme');
+  applyTheme(st==='dark'||(!st&&matchMedia('(prefers-color-scheme: dark)').matches));
+  applyLanguage(lang);
+})();
 
-    /* ========== الإحصائيات ========== */
-    function updateStats() {
-      const list = filteredMembers;
-      document.getElementById('statTotal').textContent = list.length;
+function calcAge(){
+  const d=$('bd_d').value,m=$('bd_m').value,y=$('bd_y').value;
+  if(!d||!m||!y){$('age').textContent='—';return}
+  const b=new Date(y,m-1,d),n=new Date();let a=n.getFullYear()-b.getFullYear();
+  if(n.getMonth()<b.getMonth()||(n.getMonth()===b.getMonth()&&n.getDate()<b.getDate()))a--;
+  $('age').textContent=a>=0?`${a} ${tr('yearsUnit')}`:'—';
+}
+['bd_d','bd_m','bd_y'].forEach(i=>$(i).addEventListener('change',calcAge));
 
-      // متوسط العمر
-      const ages = list.map(m => parseInt(m.age, 10)).filter(n => !isNaN(n) && n > 0 && n < 120);
-      const avg = ages.length ? Math.round(ages.reduce((a, b) => a + b, 0) / ages.length) : '--';
-      document.getElementById('statAvgAge').textContent = avg;
+$('wl').addEventListener('change',function(){
+  const cm=$('cm');
+  if(!this.value){cm.disabled=true;cm.innerHTML=`<option value="">${tr('optChooseCm')}</option>`;return}
+  cm.disabled=false;cm.innerHTML=`<option value="">${tr('lblCm')}</option>`;
+  (C[this.value]||["البلدية المركزية","بلدية 2","بلدية 3"]).forEach(c=>cm.innerHTML+=`<option value="${c}">${c}</option>`);
+});
+$('lv').addEventListener('change',function(){
+  const hi=this.value==="جامعي"||this.value==="تكوين مهني";
+  $('spw').classList.toggle('hide',!hi);
+  if(!hi){$('spo').classList.add('hide');$('sp').value=''}
+});
+$('sp').addEventListener('change',function(){$('spo').classList.toggle('hide',this.value!=="أخرى")});
+function updateJobFields(){
+  const v=$('jb').value;
+  const showOther=v==="أخرى";
+  const showSector=v==="موظف"||v==="متقاعد";
+  $('jbo').classList.toggle('hide',!showOther);
+  $('secw').classList.toggle('hide',!showSector);
+  if(!showOther){$('jbt').value=''}
+  if(!showSector){
+    $('sec').value='';
+    $('seco').classList.add('hide');
+    $('sect').value='';
+  }else{
+    // إعادة تقييم خانة القطاع الأخرى
+    $('seco').classList.toggle('hide',$('sec').value!=="أخرى");
+  }
+}
+$('jb').addEventListener('change',updateJobFields);
+$('sec').addEventListener('change',function(){
+  $('seco').classList.toggle('hide',this.value!=="أخرى");
+  if(this.value!=="أخرى")$('sect').value='';
+});
 
-      const youth = ages.filter(a => a >= 15 && a <= 35).length;
-      const youthPct = ages.length ? Math.round(youth / ages.length * 100) : 0;
-      document.getElementById('statYouthRatio').textContent =
-        ages.length ? ('نسبة الشباب: ' + youthPct + '%') : 'الفئة الغالبة: —';
-
-      // أكثر ولاية
-      const wCount = countBy(list, m => m.wilaya);
-      const topW = topKey(wCount);
-      document.getElementById('statTopWilaya').textContent = topW || '--';
-      document.getElementById('statTopWilayaCount').textContent = topW ? (wCount[topW] + ' تسجيلات') : '0 تسجيلات';
-
-      // أكثر تخصص
-      const sCount = countBy(list, m => m.specialty);
-      const topS = topKey(sCount);
-      document.getElementById('statTopSpec').textContent = topS || '--';
-      document.getElementById('statWilayasCount').textContent =
-        'من أصل ' + Object.keys(wCount).length + ' ولاية';
-    }
-
-    function countBy(arr, fn) {
-      const o = {};
-      arr.forEach(m => {
-        const k = fn(m);
-        if (!k || k === '—') return;
-        o[k] = (o[k] || 0) + 1;
-      });
-      return o;
-    }
-    function topKey(obj) {
-      let best = null, n = 0;
-      Object.keys(obj).forEach(k => { if (obj[k] > n) { n = obj[k]; best = k; } });
-      return best;
-    }
-
-    /* ========== الرسوم ========== */
-    function normalizeWilayaName(name) {
-      if (!name) return '';
-      let s = String(name).trim();
-      // توحيد بعض الصيغ الشائعة
-      s = s.replace(/^ولاية\s+/i, '').replace(/^Wilaya\s+/i, '').trim();
-      // مطابقة مع قائمة الـ 58
-      const found = ALL_WILAYAS.find(w => w === s || s.includes(w) || w.includes(s));
-      return found || s;
-    }
-
-    function renderWilayaRanking(wCount) {
-      const box = document.getElementById('wilayaRanking');
-      if (!box) return;
-
-      // دمج العدّ مع توحيد الأسماء
-      const counts = {};
-      ALL_WILAYAS.forEach(w => { counts[w] = 0; });
-      Object.keys(wCount || {}).forEach(k => {
-        if (!k || k === '—') return;
-        const norm = normalizeWilayaName(k);
-        if (counts[norm] != null) counts[norm] += wCount[k];
-        else counts[norm] = (counts[norm] || 0) + wCount[k];
-      });
-
-      // ترتيب من الأعلى إلى الأقل، ثم أبجدياً عند التعادل
-      const ranked = Object.keys(counts).sort((a, b) => {
-        if (counts[b] !== counts[a]) return counts[b] - counts[a];
-        return a.localeCompare(b, 'ar');
-      });
-
-      const max = ranked.length ? counts[ranked[0]] : 0;
-      box.innerHTML = ranked.map((w, i) => {
-        const n = counts[w];
-        const rank = i + 1;
-        const pct = max > 0 ? Math.round(n / max * 100) : 0;
-        const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : rank;
-        const barColor = n > 0 ? 'bg-[#05382b]' : 'bg-slate-200';
-        return `<div class="flex items-center gap-2 px-3 py-2 rounded-xl border border-slate-100 bg-slate-50/60 hover:bg-white transition">
-          <span class="w-8 text-center text-xs font-black ${rank <= 3 ? 'text-[#a67c2e]' : 'text-slate-400'}">${medal}</span>
-          <div class="flex-1 min-w-0">
-            <div class="flex justify-between items-center gap-2 mb-1">
-              <span class="text-sm font-bold text-[#05382b] truncate">${escapeHtml(w)}</span>
-              <span class="text-xs font-black tabular-nums ${n > 0 ? 'text-[#05382b]' : 'text-slate-300'}">${n}</span>
-            </div>
-            <div class="h-1.5 rounded-full bg-slate-200 overflow-hidden">
-              <div class="h-full rounded-full ${barColor} transition-all" style="width:${pct}%"></div>
-            </div>
-          </div>
-        </div>`;
-      }).join('');
-    }
-
-    function updateCharts() {
-      const list = filteredMembers;
-      const colors = ['#05382b','#0c5a45','#a67c2e','#d4ae56','#4fd1a1','#6366f1','#0ea5e9','#f59e0b'];
-
-      // ولايات: ترتيب كامل 58 + مخطط Top 10
-      const wCount = countBy(list, m => m.wilaya);
-      renderWilayaRanking(wCount);
-      const wSorted = Object.entries(wCount).sort((a, b) => b[1] - a[1]).slice(0, 10);
-      setBarChart('wilaya', 'wilayaChart', wSorted.map(x => x[0]), wSorted.map(x => x[1]), colors);
-
-      // أعمار
-      const buckets = { 'أقل من 18': 0, '18–25': 0, '26–35': 0, '36–45': 0, 'أكبر من 45': 0 };
-      list.forEach(m => {
-        const a = parseInt(m.age, 10);
-        if (isNaN(a)) return;
-        if (a < 18) buckets['أقل من 18']++;
-        else if (a <= 25) buckets['18–25']++;
-        else if (a <= 35) buckets['26–35']++;
-        else if (a <= 45) buckets['36–45']++;
-        else buckets['أكبر من 45']++;
-      });
-      setDoughnutChart('age', 'ageChart', Object.keys(buckets), Object.values(buckets), colors);
-
-      // مستوى دراسي
-      const eCount = countBy(list, m => m.education);
-      const eEntries = Object.entries(eCount).sort((a, b) => b[1] - a[1]);
-      setDoughnutChart('edu', 'eduChart', eEntries.map(x => x[0]), eEntries.map(x => x[1]), colors);
-
-      // تخصصات Top 8
-      const sCount = countBy(list, m => m.specialty);
-      const sSorted = Object.entries(sCount).sort((a, b) => b[1] - a[1]).slice(0, 8);
-      setBarChart('specialty', 'specialtyChart', sSorted.map(x => x[0]), sSorted.map(x => x[1]), colors);
-    }
-
-    function setBarChart(key, canvasId, labels, data, colors) {
-      const ctx = document.getElementById(canvasId);
-      if (!ctx) return;
-      if (charts[key]) charts[key].destroy();
-      charts[key] = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels,
-          datasets: [{
-            data,
-            backgroundColor: labels.map((_, i) => colors[i % colors.length]),
-            borderRadius: 8,
-            maxBarThickness: 36
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { ticks: { font: { family: 'IBM Plex Sans Arabic', size: 11 } }, grid: { display: false } },
-            y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 11 } }, grid: { color: '#f1f5f9' } }
-          }
-        }
-      });
-    }
-
-    function setDoughnutChart(key, canvasId, labels, data, colors) {
-      const ctx = document.getElementById(canvasId);
-      if (!ctx) return;
-      if (charts[key]) charts[key].destroy();
-      charts[key] = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-          labels,
-          datasets: [{
-            data,
-            backgroundColor: labels.map((_, i) => colors[i % colors.length]),
-            borderWidth: 2,
-            borderColor: '#fff'
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              position: 'bottom',
-              labels: { font: { family: 'IBM Plex Sans Arabic', size: 11 }, padding: 12, boxWidth: 12 }
-            }
-          }
-        }
-      });
-    }
-
-    /* ========== الجدول ========== */
-    function renderTable() {
-      const tbody = document.getElementById('tableBody');
-      if (!filteredMembers.length) {
-        tbody.innerHTML = `<tr><td colspan="10" class="p-12 text-center text-slate-400">لا توجد نتائج مطابقة</td></tr>`;
-        return;
-      }
-      tbody.innerHTML = filteredMembers.map((m, i) => {
-        const ts = formatDate(m.timestamp);
-        return `<tr class="member-row" onclick="openMemberModal(${i})">
-          <td class="p-4 text-slate-400 font-medium">${i + 1}</td>
-          <td class="p-4 font-bold text-[#05382b]">${escapeHtml(m.fullName)}</td>
-          <td class="p-4">${escapeHtml(String(m.age))} <span class="text-slate-400 text-xs">/ ${escapeHtml(m.birthDate || '—')}</span></td>
-          <td class="p-4">${escapeHtml(m.wilaya)}${m.residence && m.residence !== m.wilaya && m.residence !== '—' ? '<br><span class="text-[11px] text-slate-400">'+escapeHtml(m.residence)+'</span>' : ''}</td>
-          <td class="p-4 font-mono text-xs" dir="ltr">${escapeHtml(m.phone)}</td>
-          <td class="p-4 font-mono text-xs text-slate-500" dir="ltr">${escapeHtml(m.email)}</td>
-          <td class="p-4"><span class="text-xs font-semibold">${escapeHtml(m.education)}</span><br><span class="text-[11px] text-slate-400">${escapeHtml(m.specialty)}</span></td>
-          <td class="p-4 text-sm">${escapeHtml(m.job)}</td>
-          <td class="p-4 text-xs text-slate-400">${escapeHtml(ts)}</td>
-          <td class="p-4 text-center"><span class="inline-block px-2.5 py-1 rounded-lg bg-[#05382b]/8 text-[#05382b] text-[11px] font-bold">عرض</span></td>
-        </tr>`;
-      }).join('');
-    }
-
-    /* ========== نافذة العضو ========== */
-    function openMemberModal(index) {
-      const m = filteredMembers[index];
-      if (!m) return;
-      document.getElementById('dFullName').textContent = m.fullName;
-      document.getElementById('dBirth').textContent = (m.age !== '—' ? m.age + ' سنة' : '—') + '  •  ' + (m.birthDate || '—');
-      document.getElementById('dBirthPlace').textContent = m.birthPlace;
-      document.getElementById('dResidence').textContent =
-        (m.wilaya && m.wilaya !== '—' ? m.wilaya : '') +
-        (m.residence && m.residence !== m.wilaya && m.residence !== '—' ? ' — ' + m.residence : '') || '—';
-      document.getElementById('dPhone').textContent = m.phone;
-      document.getElementById('dEmail').textContent = m.email;
-      document.getElementById('dEdu').textContent = m.education + ' — ' + m.specialty;
-      document.getElementById('dJob').textContent = m.job;
-      document.getElementById('dTimestamp').textContent = formatDate(m.timestamp);
-      document.getElementById('modalRefId').textContent = m.id;
-
-      const qrBox = document.getElementById('memberQrCode');
-      qrBox.innerHTML = '';
-      const payload = [
-        'الجمعية الوطنية لرواد بيوت الشباب',
-        'Ref: ' + m.id,
-        'الاسم واللقب: ' + m.fullName,
-        'الولاية: ' + (m.wilaya || m.residence),
-        'الهاتف: ' + m.phone
-      ].join('\n');
-
-      // توليد QR بشكل موثوق: مكتبة qrcodejs أولاً، ثم صورة من خدمة خارجية كاحتياط
-      let qrDone = false;
-      try {
-        if (typeof QRCode !== 'undefined') {
-          new QRCode(qrBox, {
-            text: payload,
-            width: 140,
-            height: 140,
-            colorDark: '#05382b',
-            colorLight: '#ffffff',
-            correctLevel: (QRCode.CorrectLevel && QRCode.CorrectLevel.M) ? QRCode.CorrectLevel.M : 0
-          });
-          qrDone = qrBox.querySelector('canvas, img') != null;
-        }
-      } catch (e) {
-        qrDone = false;
-      }
-      if (!qrDone) {
-        const url = 'https://api.qrserver.com/v1/create-qr-code/?size=140x140&margin=8&data=' + encodeURIComponent(payload);
-        qrBox.innerHTML = '<img src="' + url + '" width="140" height="140" alt="QR" style="display:block;margin:0 auto;border-radius:8px" onerror="this.parentNode.innerHTML=\'<span class=\\\'text-xs text-slate-400\\\'>تعذر إنشاء QR</span>\'">';
-      }
-
-      document.getElementById('memberDetailsModal').classList.remove('hide');
-    }
-
-    function closeMemberModal() {
-      document.getElementById('memberDetailsModal').classList.add('hide');
-    }
-
-    /* ========== تصدير CSV ========== */
-    function exportCSV() {
-      const rows = filteredMembers;
-      if (!rows.length) { alert('لا توجد بيانات للتصدير'); return; }
-      const headers = ['الرقم','الاسم واللقب','العمر','تاريخ الميلاد','مكان الميلاد','الإقامة','الهاتف','البريد','المستوى','التخصص','المهنة','تاريخ التسجيل'];
-      const lines = [headers.join(',')];
-      rows.forEach(m => {
-        const cols = [m.id, m.fullName, m.age, m.birthDate, m.birthPlace, m.wilaya, m.phone, m.email, m.education, m.specialty, m.job, formatDate(m.timestamp)];
-        lines.push(cols.map(csvEscape).join(','));
-      });
-      const bom = '\uFEFF';
-      const blob = new Blob([bom + lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'ruwad_members_' + new Date().toISOString().slice(0, 10) + '.csv';
-      a.click();
-      URL.revokeObjectURL(url);
-    }
-
-    function csvEscape(v) {
-      const s = String(v == null ? '' : v);
-      if (/[",\n\r]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
-      return s;
-    }
-
-    /* ========== مساعدات ========== */
-    function escapeHtml(s) {
-      return String(s == null ? '' : s)
-        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-    }
-    function formatDate(v) {
-      if (!v) return '—';
-      try {
-        const d = new Date(v);
-        if (isNaN(d.getTime())) return String(v);
-        return d.toLocaleString('ar-DZ', { dateStyle: 'medium', timeStyle: 'short' });
-      } catch (e) { return String(v); }
-    }
-
-    /* ========== بدء ========== */
-    (function init() {
-      try {
-        if (sessionStorage.getItem('ruwad_auth') === '1') {
-          document.getElementById('loginGate').classList.add('hide');
-          document.getElementById('dashboardApp').classList.remove('hide');
-          fetchMembers();
-        }
-      } catch (e) {}
-      document.getElementById('memberDetailsModal').addEventListener('click', function(e) {
-        if (e.target === this) closeMemberModal();
-      });
-    })();
-  </script>
+/* التحقق وإرسال الاستمارة */
+$('f').addEventListener('submit',async function(e){
+  e.preventDefault();
+  const fn=$('fn').value.trim(),ln=$('ln').value.trim(),ph=$('ph').value.trim(),em=$('em').value.trim();
+  const wlText=$('wl').options[$('wl').selectedIndex]?.text||'',cm=$('cm').value;
+  $('phe').textContent='';$('eme').textContent='';
+  const phOk=/^0[567]\d{8}$/.test(ph.replace(/[\s.-]/g,''));
+  const jbVal=$('jb').value;
+  const req=[fn,ln,ph,cm,$('bd_d').value,$('bd_m').value,$('bd_y').value,$('bp').value,$('wl').value,$('lv').value,jbVal,$('contrib').value];
+  if(req.some(v=>!v)){alert(tr('req'));return}
+  if(jbVal==="أخرى"&&!$('jbt').value.trim()){alert(lang==='ar'?'يرجى كتابة المهنة':'Please specify your occupation');$('jbt').focus();return}
+  if((jbVal==="موظف"||jbVal==="متقاعد")&&!$('sec').value){alert(lang==='ar'?'يرجى اختيار القطاع':'Please select your sector');$('sec').focus();return}
+  if($('sec').value==="أخرى"&&!$('sect').value.trim()){alert(lang==='ar'?'يرجى كتابة القطاع':'Please specify your sector');$('sect').focus();return}
+  if(!phOk){$('phe').textContent=lang==='ar'?'رقم هاتف غير صالح (مثال: 0550123456)':'Invalid phone (e.g. 0550123456)';$('ph').focus();return}
+  if(em&&!/^\S+@\S+\.\S+$/.test(em)){$('eme').textContent=lang==='ar'?'بريد إلكتروني غير صالح':'Invalid email';$('em').focus();return}
+  const ref="ARH-"+Date.now().toString().slice(-6);
+  const btn=this.querySelector('.go');btn.disabled=true;
+  const txt=id=>{const o=$(id).options[$(id).selectedIndex];return o?o.text.replace(/^\d+\s-\s/,'').trim():''};
+  const occupation=jbVal==="أخرى"?$('jbt').value.trim():jbVal;
+  let sector='';
+  if(jbVal==="موظف"||jbVal==="متقاعد"){
+    sector=$('sec').value==="أخرى"?$('sect').value.trim():$('sec').value;
+  }
+  const contrib=$('contrib').value;
+  const params=new URLSearchParams();
+  params.append('first_name',fn);params.append('last_name',ln);
+  params.append('birth_day',$('bd_d').value);params.append('birth_month',$('bd_m').value);params.append('birth_year',$('bd_y').value);
+  params.append('age',parseInt($('age').textContent)||'');
+  params.append('birth_state',txt('bp'));params.append('residence_state',txt('wl'));params.append('residence_city',cm);
+  params.append('phone',ph);params.append('email',em);params.append('education_level',$('lv').value);
+  params.append('specialty',$('sp').value==="أخرى"?$('spt').value.trim():$('sp').value);
+  params.append('occupation',occupation);
+  params.append('sector',sector);
+  params.append('contribution',contrib);
+  params.append('ref',ref);
+  try{await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params.toString()})}
+  catch(err){btn.disabled=false;alert(lang==='ar'?'تعذر إرسال الطلب، تحقق من الاتصال وحاول مجدداً.':'Could not send the request. Check your connection and try again.');return}
+  btn.disabled=false;
+  $('refId').textContent=tr('ref')+ref;
+  $('qrcode').innerHTML='';
+  $('qrcode').appendChild(makeQR(`National Association of Youth Hostels Pioneers\nName: ${fn} ${ln}\nPhone: ${ph}\nWilaya: ${wlText}\nRef: ${ref}`));
+  const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const jobLine=occupation+(sector?' — '+sector:'');
+  $('sum').innerHTML=`
+    <tr><td>${tr('rName')}</td><td>${esc(fn+' '+ln)}</td></tr>
+    <tr><td>${tr('rAge')}</td><td>${$('age').textContent}</td></tr>
+    <tr><td>${tr('rRes')}</td><td>${esc(wlText)} - ${esc(cm)}</td></tr>
+    <tr><td>${tr('rPh')}</td><td dir="ltr" style="text-align:start">${esc(ph)}</td></tr>
+    <tr><td>${tr('rLv')}</td><td>${esc($('lv').value)} (${esc(jobLine)})</td></tr>
+    <tr><td>${tr('lblContrib')}</td><td>${esc(contrib)}</td></tr>`;
+  this.classList.add('hide');$('done').classList.remove('hide');$('done').scrollIntoView({behavior:'smooth'});
+});
+$('again').addEventListener('click',()=>{
+  $('f').reset();$('f').classList.remove('hide');$('done').classList.add('hide');
+  ['spw','spo','jbo','secw','seco'].forEach(i=>$(i).classList.add('hide'));
+  $('cm').disabled=true;$('cm').innerHTML=`<option value="">${tr('optChooseCm')}</option>`;
+  $('age').textContent='—';$('register').scrollIntoView({behavior:'smooth'});
+});
+</script>
 </body>
 </html>
